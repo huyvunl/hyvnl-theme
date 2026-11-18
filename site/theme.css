@@ -1,0 +1,252 @@
+/* hyvnl-theme 1.1.0
+   The shared look for my sites: ink on paper, lots of empty space.
+   Don't edit this copy. Change it in the hyvnl-theme repo, then copy it in again.
+   Guide: GUIDE.md in the hyvnl-theme repo. */
+
+/* ---------- tokens: every named value, by its job ---------- */
+:root {
+  /* colours (always light; the stamp is the only accent, never used for text) */
+  --paper: #f6f4ef;
+  --ink: #2b2b2b;
+  --grey: #6b6b6b;
+  --hairline: #d6d3cb;
+  --stamp-blue: #8fa7bf;
+  --stamp-lime: rgba(200, 230, 90, 0.55);
+
+  /* paper by season: a site picks one with a class on <html> (see below) */
+  --paper-spring: #f7f3f0;
+  --paper-summer: #f3f4f1;
+  --paper-autumn: #f4efe4;
+  --paper-winter: #f2f2f0;
+
+  /* font: Japanese-style serifs already on the device; nothing is downloaded */
+  --font: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, Georgia, serif;
+
+  /* sizes */
+  --size-title: 1rem;
+  --size-menu: 0.8rem;
+  --size-text: 0.85rem;
+  --size-more: 1.1rem;
+  --size-input: 16px;
+  --size-arrow: 18px;
+  --size-stamp: 12px;
+
+  /* spacing */
+  --edge-top: 12px;
+  --edge-left: 24px;
+  --edge-right: 12px;
+  --edge-bottom: 24px;
+  --tap: 44px;
+  --gutter: 16px;
+
+  /* motion: how slowly a link turns from grey to ink */
+  --ink-fade: 0.6s;
+}
+
+/* ---------- paper by season: <html lang="da" class="paper-autumn"> ---------- */
+:root.paper-spring { --paper: var(--paper-spring); }
+:root.paper-summer { --paper: var(--paper-summer); }
+:root.paper-autumn { --paper: var(--paper-autumn); }
+:root.paper-winter { --paper: var(--paper-winter); }
+
+/* ---------- base ---------- */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-weight: normal;
+}
+a { color: var(--grey); text-decoration: none; }
+a:hover { color: var(--ink); }
+a[aria-current="page"] { color: var(--ink); }
+a:focus-visible, summary:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+::selection { background: var(--hairline); color: var(--ink); }
+a, .lock-icon { transition: color var(--ink-fade) ease; }
+
+/* ---------- menu: top right, links with a dot between, "…" folds out more ---------- */
+.menu {
+  position: absolute;
+  top: var(--edge-top);
+  right: var(--edge-right);
+  display: flex;
+  align-items: center;
+  gap: 1.6em;
+  font-size: var(--size-menu);
+  letter-spacing: 0.2em;
+}
+.menu ul { margin: 0; padding: 0; list-style: none; }
+.menu-links { display: flex; gap: 0.9em; }
+.dot { margin-right: 0.9em; }
+.more { position: relative; }
+.more summary {
+  display: block;
+  min-width: var(--tap);
+  line-height: var(--tap);
+  text-align: center;
+  list-style: none;
+  cursor: pointer;
+  color: var(--ink);
+  font-size: var(--size-more);
+  letter-spacing: 0;
+}
+.more summary::-webkit-details-marker { display: none; }
+.more ul {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding: 10px 16px;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  text-align: right;
+  white-space: nowrap;
+  line-height: 2.2;
+}
+.phone-only { display: none; }
+
+/* ---------- centre: everything else sits in the middle of the screen ---------- */
+.center {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--gutter);
+  text-align: center;
+}
+
+/* ---------- reading: a longer page starts high instead of in the middle ---------- */
+.center.reading {
+  justify-content: flex-start;
+  padding-top: 20vh;
+  padding-bottom: 96px;
+}
+
+/* ---------- corner title: top left ---------- */
+.name {
+  position: absolute;
+  top: var(--edge-top);
+  left: var(--edge-left);
+  margin: 0;
+  line-height: var(--tap);
+  font-size: var(--size-title);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+}
+
+/* ---------- centred line (padding-left balances the letter spacing) ---------- */
+.line {
+  margin: 0;
+  font-size: var(--size-text);
+  letter-spacing: 0.1em;
+  padding-left: 0.1em;
+  color: var(--grey);
+}
+
+/* ---------- body text ---------- */
+.text {
+  max-width: 26em;
+  margin: 0;
+  font-size: var(--size-text);
+  line-height: 2;
+  letter-spacing: 0.05em;
+  color: var(--grey);
+}
+.text + .text { margin-top: 1.4em; }
+.text + .back { margin-top: 16px; }
+
+/* ---------- list: a quiet column of links ---------- */
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--size-menu);
+  letter-spacing: 0.2em;
+  line-height: 2.6;
+}
+.list + .back { margin-top: 16px; }
+
+/* ---------- back arrow ---------- */
+.back {
+  display: block;
+  width: var(--tap);
+  line-height: var(--tap);
+  text-align: center;
+  font-size: var(--size-arrow);
+  letter-spacing: 0;
+}
+.back:hover, .back:focus { color: var(--ink); }
+
+/* ---------- lock: the icon turns into a password field, no script ---------- */
+.lock-field {
+  width: 0; opacity: 0; padding: 4px 0; margin: 0;
+  border: 0; border-bottom: 1px solid var(--grey); border-radius: 0;
+  background: transparent; color: var(--ink);
+  font: inherit; font-size: var(--size-input); letter-spacing: 0.12em;
+  outline: none;
+  transition: width .25s ease, opacity .25s ease;
+}
+.lock-field::placeholder { color: var(--grey); opacity: 1; }
+.lock-field:focus { border-bottom-color: var(--ink); }
+.lock-icon {
+  display: flex; width: var(--tap); height: var(--tap);
+  align-items: center; justify-content: center;
+  color: var(--grey); cursor: pointer;
+}
+.lock-icon:hover { color: var(--ink); }
+.lock:focus-within .lock-field, .lock[data-open] .lock-field { width: 9em; opacity: 1; }
+.lock:focus-within .lock-icon, .lock[data-open] .lock-icon { display: none; }
+
+/* ---------- stamp: a faded blue dot with a lime dot low inside, bottom right ----------
+   Decoration only: <span class="stamp" aria-hidden="true"></span> as the last thing in main.center. */
+.stamp {
+  position: absolute;
+  right: var(--edge-left);
+  bottom: var(--edge-bottom);
+  width: var(--size-stamp);
+  height: var(--size-stamp);
+  border-radius: 50%;
+  background: var(--stamp-blue);
+}
+.stamp::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  width: 55%;
+  height: 55%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: var(--stamp-lime);
+}
+
+/* ---------- read by screen readers only ---------- */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- less motion when the device asks for it ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .lock-field, a, .lock-icon { transition: none; }
+}
+
+/* ---------- phone: narrower than 600px, only "…" shows ----------
+   The number is written out because CSS doesn't allow variables inside @media. */
+@media (max-width: 599px) {
+  .menu-links { display: none; }
+  .phone-only { display: block; }
+}
+
+/* ---------- print: ink on white paper, title and words only ---------- */
+@media print {
+  body { background: #fff; color: #000; }
+  .menu, .back, .stamp { display: none; }
+  .center, .center.reading { display: block; min-height: 0; padding: 0; text-align: left; }
+  .name { position: static; margin-bottom: 1em; }
+  .line, .text, .list, a { color: #000; }
+  .text { max-width: none; }
+}
