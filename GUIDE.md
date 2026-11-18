@@ -251,6 +251,19 @@ Check before publishing:
 - [ ] The stamp has `aria-hidden="true"`.
 - [ ] Nothing scrolls sideways at 320px wide.
 - [ ] Movement stops when the device asks for less motion (already in `theme.css`).
+- [ ] **Click check:** the menu links, `…` and the lock take clicks at 1280, 375 and 320px wide (see below).
+
+**Click check.** Something invisible drawn on top of the menu can swallow its clicks while the page still looks right (that was the 1.1.0 bug). In the browser, set the width (developer tools → device toolbar), open the console and paste:
+
+```js
+[...document.querySelectorAll('.menu a, .menu summary, .lock-icon')]
+  .filter(e => e.getClientRects().length)
+  .map(e => { const r = e.getBoundingClientRect();
+    const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+    return (e.textContent.trim() || 'lock') + (e.contains(hit) ? ': ok' : ': BLOCKED by ' + hit.tagName); })
+```
+
+Every line must end in `ok`. Open `…` and paste it again for the fold-out's links. Then really click: the lock must open its field, and `…` must open its list. Do it on every starter page and the specimen.
 
 ## 7. Starter pages
 
@@ -401,5 +414,6 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.1.1** (2026-11-18): fix: the menu links, `…` and the lock could not be clicked, because the centre (made positioned in 1.1.0 for the stamp) was drawn over the menu. The menu now sits above it (`z-index: 2`). Nothing looks different. New: the click check in section 6.
 - **1.1.0** (2026-11-18): the concept, the stamp, slow ink, quiet selection, paper by season, print, the list and reading pieces, three new starter pages (`list.html`, `reading.html`, `404.html`), and the specimen page. Pages made for 1.0.0 look the same.
 - **1.0.0** (2026-11-18): first version, taken from hyvnl.com as it looked on 2026-11-18.

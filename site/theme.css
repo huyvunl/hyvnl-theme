@@ -1,4 +1,4 @@
-/* hyvnl-theme 1.1.0
+/* hyvnl-theme 1.1.1
    The shared look for my sites: ink on paper, lots of empty space.
    Don't edit this copy. Change it in the hyvnl-theme repo, then copy it in again.
    Guide: GUIDE.md in the hyvnl-theme repo. */
@@ -65,9 +65,12 @@ a:focus-visible, summary:focus-visible { outline: 1px solid var(--ink); outline-
 ::selection { background: var(--hairline); color: var(--ink); }
 a, .lock-icon { transition: color var(--ink-fade) ease; }
 
-/* ---------- menu: top right, links with a dot between, "…" folds out more ---------- */
+/* ---------- menu: top right, links with a dot between, "…" folds out more ----------
+   z-index keeps the menu above main.center (full height, positioned, and later in the page),
+   so the links, "…" and the lock take clicks. The stamp stays below it. */
 .menu {
   position: absolute;
+  z-index: 2;
   top: var(--edge-top);
   right: var(--edge-right);
   display: flex;
