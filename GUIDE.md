@@ -184,21 +184,25 @@ A small faded blue dot with a see-through lime dot resting low inside it, in the
 
 ### Site icon
 
-The stamp is also the icon in the browser tab, in bookmarks and on a phone's home screen. Two files in `site/`:
+The stamp is also the icon in the browser tab, in bookmarks and on a phone's home screen. Three files in `site/`:
 
 - `favicon.svg`: the stamp as two plain circles on a clear background, filling the whole icon so it reads at 16px. Same colours and shape as `.stamp`.
+- `favicon-32.png`: the same drawing as a 32×32 picture on a clear background, for browsers that can't show an SVG tab icon (some Safari versions, older browsers).
 - `apple-touch-icon.png`: 180×180 for phones. A home-screen icon can't be see-through, so the stamp sits on the paper colour `#f6f4ef`.
 
-Put these two lines in every page's `<head>`, right after the theme:
+Put these three lines in every page's `<head>`, right after the theme, in this order:
 
 ```html
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 ```
 
-- Do: serve both files from the site's own address (the CSP's `img-src 'self'` allows them), with the headers from section 8.
-- Do: send browsers asking for the old `/favicon.ico` to `/favicon.svg`, or answer it with the PNG, so they don't get a 404.
-- Don't: change their colours per site. Browsers keep icons a long time, so after a change a hard refresh may be needed to see it.
+- Order: the PNG line first, the SVG line after it. Browsers that can show SVG take the SVG (some take the last icon they can read, and the PNG's `sizes="32x32"` stops others from preferring it); the rest skip the SVG and use the PNG.
+
+- Do: serve all three files from the site's own address (the CSP's `img-src 'self'` allows them), with the headers from section 8.
+- Do: send browsers asking for the old `/favicon.ico` to `/favicon-32.png` (a redirect, or answer it with the PNG), so they don't get a 404. Not to the SVG: browsers that ask for `.ico` can't read SVG.
+- Don't: change their colours per site, or redraw one file without the others. Browsers keep icons a long time, so after a change a hard refresh may be needed to see it.
 
 ### Paper by season
 
@@ -285,7 +289,7 @@ Every line must end in `ok`. Open `…` and paste it again for the fold-out's li
 
 ## 7. Starter pages
 
-`site/` holds five pages to copy. All of them carry the stamp and link the site icon (`favicon.svg`, `apple-touch-icon.png`, see Site icon).
+`site/` holds five pages to copy. All of them carry the stamp and link the site icon (`favicon-32.png`, `favicon.svg`, `apple-touch-icon.png`, see Site icon).
 
 | File | What it is |
 |---|---|
@@ -352,7 +356,7 @@ python3 -m http.server 8000 --directory site
 
 Then open http://localhost:8000. (Double-clicking a file won't load the style, because `/theme.css` needs a server.)
 
-6. Hosting: anything that serves the pages, `/theme.css`, `/favicon.svg` and `/apple-touch-icon.png`, and adds the headers from section 8. If the host supports clean addresses, links can be `/side` instead of `/page.html`. Set the host to send `404.html` for wrong addresses.
+6. Hosting: anything that serves the pages, `/theme.css`, `/favicon-32.png`, `/favicon.svg` and `/apple-touch-icon.png`, and adds the headers from section 8. If the host supports clean addresses, links can be `/side` instead of `/page.html`. Set the host to send `404.html` for wrong addresses.
 7. Run the check in section 8 and the checklist in section 6, then publish the way that site's README says.
 
 ### Update a site
@@ -434,6 +438,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.2.1** (2026-11-18): fix: a PNG backup for the tab icon, `site/favicon-32.png`, for browsers that can't show the SVG (some Safari versions). Linked before the SVG on every starter page and the specimen; `/favicon.ico` should now go to the PNG, not the SVG (see Site icon). Nothing looks different. To get it in a site, copy the file and add the PNG `<link>` line above the SVG one.
 - **1.2.0** (2026-11-18): new: the site icon. The stamp as `site/favicon.svg` and `site/apple-touch-icon.png`, linked from every starter page and the specimen (see Site icon). Pages look the same; to get the icon in a site, copy the two files and add the two `<link>` lines.
 - **1.1.1** (2026-11-18): fix: the menu links, `…` and the lock could not be clicked, because the centre (made positioned in 1.1.0 for the stamp) was drawn over the menu. The menu now sits above it (`z-index: 2`). Nothing looks different. New: the click check in section 6.
 - **1.1.0** (2026-11-18): the concept, the stamp, slow ink, quiet selection, paper by season, print, the list and reading pieces, three new starter pages (`list.html`, `reading.html`, `404.html`), and the specimen page. Pages made for 1.0.0 look the same.
