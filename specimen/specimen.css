@@ -1,0 +1,90 @@
+/* hyvnl-theme specimen: layout for the specimen page only.
+   Not part of the theme; sites never copy it. Colours and sizes come from theme tokens. */
+
+body { height: auto; }
+.sp { max-width: 960px; margin: 0 auto; padding: 0 var(--gutter) 96px; }
+
+/* opening screen */
+.sp-head {
+  position: relative;
+  min-height: min(92vh, 760px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+}
+.sp-title { margin: 0 0 40px; font-size: var(--size-title); font-weight: 600; letter-spacing: 0.3em; padding-left: 0.3em; }
+.concept { margin: 0; padding: 0; list-style: none; font-size: var(--size-text); letter-spacing: 0.08em; line-height: 2.6; color: var(--grey); }
+.concept b { display: inline-block; min-width: 5.5em; margin-right: 1em; text-align: right; font-weight: normal; color: var(--ink); }
+.sp-sub { margin: 40px 0 0; font-size: 0.7rem; letter-spacing: 0.25em; color: var(--grey); }
+
+/* sections */
+.sec { padding: 48px 0 56px; border-top: 1px solid var(--hairline); }
+.sec h2 { margin: 0 0 6px; font-size: var(--size-menu); font-weight: normal; letter-spacing: 0.3em; }
+.sec > p { max-width: 40em; margin: 0 0 28px; font-size: 0.75rem; line-height: 1.8; letter-spacing: 0.05em; color: var(--grey); }
+.grid { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
+.cap { margin: 8px 0 0; font-size: 0.7rem; letter-spacing: 0.15em; color: var(--grey); }
+.cap b { font-weight: normal; color: var(--ink); }
+.grid + .cap { margin: 32px 0 8px; }
+
+/* a frame: a small copy of a page made of real theme pieces */
+.grid > div { max-width: 100%; }
+.frame { max-width: 100%; position: relative; width: 200px; height: 120px; overflow: hidden; background: var(--paper); border: 1px solid var(--hairline); }
+.frame .center { height: 100%; }
+.frame .menu { font-size: 0.7rem; }
+.frame .name { font-size: 0.8rem; left: 14px; top: 2px; }
+.frame .stamp { right: 14px; bottom: 12px; }
+.frame-wide { width: 300px; height: 170px; }
+.frame-desk { width: 560px; height: 330px; }
+.frame-phone { width: 180px; height: 360px; border-radius: 14px; }
+.frame-thumb { width: 168px; height: 124px; }
+.frame-thumb .line, .frame-thumb .list { font-size: 0.7rem; }
+.frame .center.reading { padding-top: 48px; padding-bottom: 0; }
+
+/* colour chips */
+.sw { width: 132px; font-size: 0.7rem; line-height: 1.7; letter-spacing: 0.08em; color: var(--grey); }
+.sw b { display: block; font-weight: normal; color: var(--ink); }
+.chip { height: 72px; margin-bottom: 8px; border: 1px solid var(--hairline); display: flex; align-items: center; justify-content: center; }
+.chip .stamp { position: relative; right: auto; bottom: auto; }
+.chip-paper { background: var(--paper); }
+.chip-ink { background: var(--ink); }
+.chip-grey { background: var(--grey); }
+.chip-hairline { background: var(--hairline); }
+.chip-spring { background: var(--paper-spring); }
+.chip-summer { background: var(--paper-summer); }
+.chip-autumn { background: var(--paper-autumn); }
+.chip-winter { background: var(--paper-winter); }
+
+/* type scale */
+.type div { display: flex; align-items: baseline; gap: 24px; padding: 10px 0; border-bottom: 1px solid var(--hairline); }
+.type code { flex: none; width: 10em; font-family: var(--font); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--grey); }
+.t-title { font-size: var(--size-title); font-weight: 600; letter-spacing: 0.15em; }
+.t-more { font-size: var(--size-more); }
+.t-text { font-size: var(--size-text); letter-spacing: 0.05em; color: var(--grey); }
+.t-menu { font-size: var(--size-menu); letter-spacing: 0.2em; color: var(--grey); }
+.t-arrow { font-size: var(--size-arrow); color: var(--grey); }
+
+/* space boxes */
+.space { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-end; }
+.space div { font-size: 0.7rem; letter-spacing: 0.08em; text-align: center; color: var(--grey); }
+.box { display: block; margin: 0 auto 8px; background: var(--hairline); }
+.box-12 { width: var(--edge-top); height: var(--edge-top); }
+.box-16 { width: var(--gutter); height: var(--gutter); }
+.box-24 { width: var(--edge-left); height: var(--edge-left); }
+.box-44 { width: var(--tap); height: var(--tap); }
+
+/* states drawn still, using only theme tokens */
+.show-hover { color: var(--ink); }
+.show-focus { outline: 1px solid var(--ink); outline-offset: 4px; }
+.show-selection { background: var(--hairline); color: var(--ink); }
+
+/* the live row: real pieces you can hover and Tab to */
+.live { position: relative; height: 64px; max-width: 420px; border: 1px solid var(--hairline); }
+.live .back { position: absolute; left: 8px; top: 10px; }
+
+/* do / don't: the wrong examples, only here */
+.dont-big { font-size: 1.6rem; }
+.dont-colour { color: #3b6fd8; }
+
+@media (max-width: 599px) {
+  .frame-desk { width: 100%; }
+  .type code { width: 8em; }
+}

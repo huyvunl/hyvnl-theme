@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hyvnl-theme · specimen</title>
+<link rel="stylesheet" href="../site/theme.css">
+<link rel="stylesheet" href="specimen.css">
+</head>
+<body>
+<div class="sp">
+
+  <header class="sp-head" id="concept">
+    <h1 class="sp-title">hyvnl-theme</h1>
+    <ul class="concept">
+      <li><b>ma</b>the empty space is the design</li>
+      <li><b>kanso</b>leave out what the page can do without</li>
+      <li><b>seijaku</b>nothing moves until you touch it</li>
+      <li><b>shibui</b>quiet, never loud</li>
+    </ul>
+    <p class="sp-sub">ink on paper · no scripts · nothing downloaded</p>
+    <span class="stamp" aria-hidden="true"></span>
+  </header>
+
+  <section class="sec" id="colours">
+    <h2>colours</h2>
+    <p>Paper, ink, grey and one hairline. The stamp is the only colour, and it is never used for text.</p>
+    <div class="grid">
+      <div class="sw"><div class="chip chip-paper"></div><b>paper</b>#f6f4ef<br>the page</div>
+      <div class="sw"><div class="chip chip-ink"></div><b>ink</b>#2b2b2b<br>12.9 : 1 on paper</div>
+      <div class="sw"><div class="chip chip-grey"></div><b>grey</b>#6b6b6b<br>4.85 : 1 on paper</div>
+      <div class="sw"><div class="chip chip-hairline"></div><b>hairline</b>#d6d3cb<br>borders, selection</div>
+      <div class="sw"><div class="chip"><span class="stamp" aria-hidden="true"></span></div><b>stamp</b>faded blue, lime inside<br>decoration only</div>
+    </div>
+  </section>
+
+  <section class="sec" id="paper">
+    <h2>paper by season</h2>
+    <p>A site may pick one with a class on &lt;html&gt;, for example class="paper-autumn". Grey text stays above the 4.5 : 1 readability bar on all of them.</p>
+    <div class="grid">
+      <div class="sw"><div class="chip chip-paper"></div><b>paper</b>default · grey 4.85</div>
+      <div class="sw"><div class="chip chip-spring"></div><b lang="da">forår</b>paper-spring · grey 4.83</div>
+      <div class="sw"><div class="chip chip-summer"></div><b lang="da">sommer</b>paper-summer · grey 4.83</div>
+      <div class="sw"><div class="chip chip-autumn"></div><b lang="da">efterår</b>paper-autumn · grey 4.65</div>
+      <div class="sw"><div class="chip chip-winter"></div><b lang="da">vinter</b>paper-winter · grey 4.75</div>
+    </div>
+  </section>
+
+  <section class="sec" id="type">
+    <h2>type</h2>
+    <p>Japanese-style serifs already on the device. Five sizes, nothing else.</p>
+    <div class="type" lang="da">
+      <div><code>--size-title 1rem</code><span class="t-title">sidenavn</span></div>
+      <div><code>--size-more 1.1rem</code><span class="t-more">…</span></div>
+      <div><code>--size-text 0.85rem</code><span class="t-text">en stille linje, og en kort tekst</span></div>
+      <div><code>--size-menu 0.8rem</code><span class="t-menu">link et · link to · link tre</span></div>
+      <div><code>--size-arrow 18px</code><span class="t-arrow">←</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="space">
+    <h2>space</h2>
+    <p>Small edges, a generous tap size, and the rest is room.</p>
+    <div class="space">
+      <div><span class="box box-12"></span>edge-top, edge-right<br>12px</div>
+      <div><span class="box box-16"></span>gutter<br>16px</div>
+      <div><span class="box box-24"></span>edge-left, edge-bottom<br>24px</div>
+      <div><span class="box box-44"></span>tap<br>44px</div>
+    </div>
+  </section>
+
+  <section class="sec" id="pieces">
+    <h2>pieces, in every state</h2>
+    <p>The real theme pieces. Hover, focus and selection are drawn still so you can see them without touching. The last row is live: hover it, or reach it with Tab.</p>
+    <div class="grid" lang="da" inert>
+      <div><div class="frame"><nav class="menu"><ul class="menu-links"><li><a href="#" aria-current="page">et</a></li><li><span class="dot">·</span><a href="#">to</a></li></ul><details class="more"><summary>…</summary></details></nav></div><p class="cap" lang="en">menu · current page in ink</p></div>
+      <div><div class="frame"><nav class="menu"><details class="more" open><summary>…</summary><ul><li><a href="#">link fire</a></li><li><a href="#">link fem</a></li></ul></details></nav></div><p class="cap" lang="en">… open</p></div>
+      <div><div class="frame"><nav class="menu"><ul class="menu-links"><li><a href="#" class="show-hover">et</a></li><li><span class="dot">·</span><a href="#" class="show-focus">to</a></li></ul></nav></div><p class="cap" lang="en">hover (et) · focus (to)</p></div>
+      <div><div class="frame"><form class="menu lock"><label class="lock-icon"><svg width="12" height="14" viewBox="0 0 16 18" fill="none" stroke="currentColor" stroke-width="1.2" focusable="false"><rect x="2" y="8" width="12" height="9" rx="1"/><path d="M4.5 8V5.5a3.5 3.5 0 0 1 7 0V8"/></svg></label></form></div><p class="cap" lang="en">lock closed</p></div>
+      <div><div class="frame"><form class="menu lock" data-open><input class="lock-field" type="text" placeholder="adgangskode" aria-label="adgangskode"></form></div><p class="cap" lang="en">lock open</p></div>
+      <div><div class="frame"><main class="center"><p class="line">en <span class="show-selection">stille</span> linje</p><a class="back" href="#">←</a></main></div><p class="cap" lang="en">selection · back arrow</p></div>
+      <div><div class="frame"><main class="center"><p class="line">en stille linje</p><span class="stamp"></span></main></div><p class="cap" lang="en">stamp, bottom right</p></div>
+    </div>
+    <p class="cap"><b>live</b></p>
+    <div class="live" lang="da">
+      <a class="back" href="#pieces" aria-label="Tilbage til forsiden">←</a>
+      <nav class="menu" aria-label="Menu"><ul class="menu-links"><li><a href="#pieces">link et</a></li><li><span class="dot" aria-hidden="true">·</span><a href="#pieces">link to</a></li></ul><details class="more"><summary aria-label="Flere links">…</summary><ul><li><a href="#pieces">link fire</a></li></ul></details></nav>
+    </div>
+  </section>
+
+  <section class="sec" id="pages">
+    <h2>page setups</h2>
+    <p>Five starter pages in site/, ready to copy.</p>
+    <div class="grid" lang="da" inert>
+      <div><div class="frame frame-thumb"><main class="center"><p class="name">sidenavn</p><p class="line">en stille linje</p><span class="stamp"></span></main></div><p class="cap" lang="en">index.html · front</p></div>
+      <div><div class="frame frame-thumb"><main class="center"><p class="name">link et</p><p class="line">en kort tekst</p><a class="back" href="#">←</a><span class="stamp"></span></main></div><p class="cap" lang="en">page.html · short page</p></div>
+      <div><div class="frame frame-thumb"><main class="center"><p class="name">link to</p><ul class="list"><li>første note</li><li>anden note</li></ul><span class="stamp"></span></main></div><p class="cap" lang="en">list.html · list</p></div>
+      <div><div class="frame frame-thumb"><main class="center reading"><p class="name">link tre</p><p class="line">afsnit</p><p class="line">afsnit</p><p class="line">afsnit</p><span class="stamp"></span></main></div><p class="cap" lang="en">reading.html · longer reading</p></div>
+      <div><div class="frame frame-thumb"><main class="center"><p class="name">sidenavn</p><p class="line">her er intet</p><a class="back" href="#">←</a><span class="stamp"></span></main></div><p class="cap" lang="en">404.html · not found</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="dodont">
+    <h2>do / don't</h2>
+    <p>Each pair shows one rule.</p>
+    <div class="grid" lang="da" inert>
+      <div><div class="frame frame-wide"><main class="center"><p class="name">sidenavn</p><p class="line">en stille linje</p></main></div><p class="cap" lang="en"><b>do</b> · a small title, lots of room</p></div>
+      <div><div class="frame frame-wide"><main class="center"><p class="name dont-big">SIDENAVN</p><p class="line">en stille linje</p></main></div><p class="cap" lang="en"><b>don't</b> · a big, loud title</p></div>
+      <div><div class="frame frame-wide"><main class="center"><p class="name">sidenavn</p><p class="line">en stille linje</p></main></div><p class="cap" lang="en"><b>do</b> · one quiet line</p></div>
+      <div><div class="frame frame-wide"><main class="center"><p class="name">sidenavn</p><p class="line">velkommen!</p><p class="line">læs mere her</p><p class="line dont-colour">klik nu</p></main></div><p class="cap" lang="en"><b>don't</b> · many lines, an exclamation mark, a colour</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="devices">
+    <h2>computer and phone</h2>
+    <p>On a phone only the … shows; its list also holds the links.</p>
+    <div class="grid" lang="da" inert>
+      <div><div class="frame frame-desk"><nav class="menu"><ul class="menu-links"><li><a href="#">link et</a></li><li><span class="dot">·</span><a href="#">link to</a></li><li><span class="dot">·</span><a href="#">link tre</a></li></ul><details class="more"><summary>…</summary></details></nav><main class="center"><p class="name">sidenavn</p><p class="line">en stille linje</p><span class="stamp"></span></main></div><p class="cap" lang="en">computer</p></div>
+      <div><div class="frame frame-phone"><nav class="menu"><details class="more"><summary>…</summary></details></nav><main class="center"><p class="name">sidenavn</p><p class="line">en stille linje</p><span class="stamp"></span></main></div><p class="cap" lang="en">phone</p></div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
