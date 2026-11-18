@@ -182,6 +182,24 @@ A small faded blue dot with a see-through lime dot resting low inside it, in the
 - Do: one stamp per page, always with `aria-hidden="true"` (it's decoration).
 - Don't: use its colours for text, links or anything that carries meaning.
 
+### Site icon
+
+The stamp is also the icon in the browser tab, in bookmarks and on a phone's home screen. Two files in `site/`:
+
+- `favicon.svg`: the stamp as two plain circles on a clear background, filling the whole icon so it reads at 16px. Same colours and shape as `.stamp`.
+- `apple-touch-icon.png`: 180×180 for phones. A home-screen icon can't be see-through, so the stamp sits on the paper colour `#f6f4ef`.
+
+Put these two lines in every page's `<head>`, right after the theme:
+
+```html
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+```
+
+- Do: serve both files from the site's own address (the CSP's `img-src 'self'` allows them), with the headers from section 8.
+- Do: send browsers asking for the old `/favicon.ico` to `/favicon.svg`, or answer it with the PNG, so they don't get a 404.
+- Don't: change their colours per site. Browsers keep icons a long time, so after a change a hard refresh may be needed to see it.
+
 ### Paper by season
 
 Four slightly different papers. A site picks one by hand with a class on `<html>`; nothing switches by date, because that would need a script.
@@ -267,7 +285,7 @@ Every line must end in `ok`. Open `…` and paste it again for the fold-out's li
 
 ## 7. Starter pages
 
-`site/` holds five pages to copy. All of them carry the stamp.
+`site/` holds five pages to copy. All of them carry the stamp and link the site icon (`favicon.svg`, `apple-touch-icon.png`, see Site icon).
 
 | File | What it is |
 |---|---|
@@ -303,8 +321,10 @@ In plain words: browsers only use https, don't guess file types, don't let other
 Check a site's files with:
 
 ```bash
-grep -rnE '<script|https?://|@import|url\(|style="|<style| on[a-z]+=' site/ || echo "clean"
+grep -rnE '<script|https?://|@import|url\(|style="|<style| on[a-z]+=' site/ | grep -v 'xmlns="http://www.w3.org/2000/svg"' || echo "clean"
 ```
+
+(The second `grep` lets through `favicon.svg`'s `xmlns="http://www.w3.org/2000/svg"`. Every SVG file needs that label; it names the format and loads nothing.)
 
 ## 9. Start, update and change
 
@@ -332,7 +352,7 @@ python3 -m http.server 8000 --directory site
 
 Then open http://localhost:8000. (Double-clicking a file won't load the style, because `/theme.css` needs a server.)
 
-6. Hosting: anything that serves the pages and `/theme.css` and adds the headers from section 8. If the host supports clean addresses, links can be `/side` instead of `/page.html`. Set the host to send `404.html` for wrong addresses.
+6. Hosting: anything that serves the pages, `/theme.css`, `/favicon.svg` and `/apple-touch-icon.png`, and adds the headers from section 8. If the host supports clean addresses, links can be `/side` instead of `/page.html`. Set the host to send `404.html` for wrong addresses.
 7. Run the check in section 8 and the checklist in section 6, then publish the way that site's README says.
 
 ### Update a site
@@ -414,6 +434,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.2.0** (2026-11-18): new: the site icon. The stamp as `site/favicon.svg` and `site/apple-touch-icon.png`, linked from every starter page and the specimen (see Site icon). Pages look the same; to get the icon in a site, copy the two files and add the two `<link>` lines.
 - **1.1.1** (2026-11-18): fix: the menu links, `…` and the lock could not be clicked, because the centre (made positioned in 1.1.0 for the stamp) was drawn over the menu. The menu now sits above it (`z-index: 2`). Nothing looks different. New: the click check in section 6.
 - **1.1.0** (2026-11-18): the concept, the stamp, slow ink, quiet selection, paper by season, print, the list and reading pieces, three new starter pages (`list.html`, `reading.html`, `404.html`), and the specimen page. Pages made for 1.0.0 look the same.
 - **1.0.0** (2026-11-18): first version, taken from hyvnl.com as it looked on 2026-11-18.
