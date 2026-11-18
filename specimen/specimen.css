@@ -38,6 +38,12 @@ body { height: auto; }
 .frame-thumb { width: 168px; height: 124px; }
 .frame-thumb .line, .frame-thumb .list { font-size: 0.7rem; }
 .frame .center.reading { padding-top: 48px; padding-bottom: 0; }
+/* frames and the live row show the computer menu on every screen, not the phone one */
+.frame .menu-links, .live .menu-links { display: flex; }
+/* on a phone the computer frame is drawn as a half-size miniature, so its menu fits */
+@media (max-width: 599px) {
+  .frame-desk.frame-desk { width: 560px; zoom: 0.5; }
+}
 
 /* colour chips */
 .sw { width: 132px; font-size: 0.7rem; line-height: 1.7; letter-spacing: 0.08em; color: var(--grey); }
