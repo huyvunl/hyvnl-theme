@@ -38,6 +38,22 @@ body { height: auto; }
 .frame-thumb { width: 168px; height: 124px; }
 .frame-thumb .line, .frame-thumb .list { font-size: 0.7rem; }
 .frame .center.reading { padding-top: 48px; padding-bottom: 0; }
+/* the 1.3.0 pieces, drawn small so they fit a frame */
+.frame .log, .frame .meta, .frame .title, .frame .prose, .frame .form { font-size: 0.6rem; letter-spacing: 0.05em; line-height: 1.5; }
+.frame .title { font-size: 0.7rem; }
+.frame .prose { line-height: 1.5; }
+.frame .log li { grid-template-columns: 5.5em 1fr; gap: 0 0.6em; padding: 0.2em 0; }
+.frame .field-label { font-size: 0.55rem; }
+.frame .field { font-size: 0.7rem; padding: 2px 0; }
+.frame .actions { margin-top: 0.5em; }
+.frame .notice { font-size: 0.55rem; margin: 0.2em 0 0; line-height: 1.3; }
+.frame .center.reading:has(.form) { padding-top: 18px; }
+.frame .button { min-height: 20px; padding: 0 0.8em; }
+.frame .center.reading:has(.log, .title, .prose, .form) { padding-top: 34px; padding-left: 14px; padding-right: 14px; }
+.frame .center.reading:has(.title, .prose) { padding-top: 30px; }
+.frame .center.reading:has(.title) .name { top: 2px; }
+.frame-thumb .center.reading:has(.log, .title, .form) { align-items: flex-start; }
+.frame-thumb:has(.log, .title, .form) { width: 200px; }
 /* frames and the live row show the computer menu on every screen, not the phone one */
 .frame .menu-links, .live .menu-links { display: flex; }
 /* on a phone the computer frame is drawn as a half-size miniature, so its menu fits */

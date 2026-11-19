@@ -55,6 +55,7 @@ Tokens are the named values in `theme.css`. Use the name, never the raw value, s
 | `--edge-bottom` | `24px` | gap below the stamp |
 | `--tap` | `44px` | smallest tap area |
 | `--gutter` | `16px` | side padding of the centre |
+| `--column` | `22rem` | width of a left-aligned column (log, title, meta, prose, form) |
 | `--ink-fade` | `0.6s` | how slowly a link turns from grey to ink |
 
 The phone switch at 600px is written out in `theme.css` and isn't a token, because CSS doesn't allow variables inside `@media`.
@@ -142,7 +143,7 @@ A quiet column of links, for example an index of notes.
 ```
 
 - Do: short link texts, lowercase.
-- Don't: add dates or descriptions next to the links (that's the "log" idea for later).
+- Don't: add dates next to the links (use the log).
 
 ### Reading page
 
@@ -170,6 +171,75 @@ A bare `←` back to the front page, under the text.
 
 - Do: keep the `aria-label`, because screen readers can't say "←" usefully.
 - Don't: add the word "tilbage" next to it.
+
+### Side link
+
+One link at the start of the top-right corner, visible on phones too (`.menu-side`). Next to a menu it is the first child of the `<nav class="menu">`. Beside a lock, wrap both in `<div class="menu">` and write the link **after** the `<form class="lock">` (it is shown before it): a link inside the form would open the field when pressed and lose its click. It steps aside while the field is open.
+
+```html
+<div class="menu">
+  <form class="lock" method="post" action="/unlock">…</form>
+  <a class="menu-side" href="/log.html">noter</a>
+</div>
+```
+
+- Do: one short word, lowercase.
+- Don't: more than one side link.
+
+### Title and meta
+
+A page's own title in the column (`.title`), with a small grey line of facts under it (`.meta`), `·` between.
+
+```html
+<h1 class="title">en morgen</h1>
+<p class="meta"><time datetime="2026-11-19">19 11 2026</time> · <a href="/log.html">rejser</a></p>
+```
+
+- Do: put the site's name in the corner (`.name`) and the page's title here.
+- Don't: more than one line of facts.
+
+### Log
+
+Grey dates next to ink titles (`.log`, `.log-date`). Copy the HTML from `site/log.html`.
+
+```html
+<ol class="log">
+  <li><time class="log-date" datetime="2026-11-19">19 11 2026</time><a href="/post.html">en morgen</a></li>
+</ol>
+```
+
+- Do: one line per entry, newest first.
+- Don't: add descriptions under the titles.
+
+### Prose
+
+Longer text with headings (`h2`, `h3`), lists, emphasis and links (`.prose`). This is the design decision that "Body text" asks for before headings. Copy the HTML from `site/post.html`.
+
+```html
+<div class="prose">
+  <p>Første afsnit.</p>
+  <h2>en overskrift</h2>
+  <p>Tekst med <em>kursiv</em>, <strong>fed</strong> og <a href="#">et link</a>.</p>
+</div>
+```
+
+- Do: use it for a real text with parts.
+- Don't: use it for a few sentences (use Body text).
+
+### Form
+
+Labels above fields, one quiet button and a `fortryd` link (`.form`, `.field-label`, `.field`, `.area`, `.hint`, `.notice`, `.actions`, `.button`). A wrong field gets `aria-invalid="true"`, `aria-describedby` and a `.notice` right under it. The site's own server code decides what happens with the form; the theme only gives the look. Copy the HTML from `site/form.html`.
+
+```html
+<form class="form" method="post" action="/gem">
+  <label class="field-label" for="titel">titel</label>
+  <input class="field" id="titel" name="titel" type="text" required>
+  <div class="actions"><button class="button" type="submit">gem</button><a href="/log.html">fortryd</a></div>
+</form>
+```
+
+- Do: a label for every field.
+- Don't: placeholders instead of labels.
 
 ### Stamp
 
@@ -235,6 +305,8 @@ A small grey lock in the menu's place. Clicking it turns it into a password fiel
 
 Adding `data-open` to the form keeps the field open (for example after a wrong password).
 
+`.lock` now lays itself out, so it can sit inside a `<div class="menu">` with a side link (see Side link); the old `<form class="menu lock">` still works.
+
 - Do: let the server decide who gets in.
 - Don't: hide pages with CSS or a script. Hidden is not locked.
 
@@ -278,18 +350,18 @@ Check before publishing:
 **Click check.** Something invisible drawn on top of the menu can swallow its clicks while the page still looks right (that was the 1.1.0 bug). In the browser, set the width (developer tools → device toolbar), open the console and paste:
 
 ```js
-[...document.querySelectorAll('.menu a, .menu summary, .lock-icon')]
+[...document.querySelectorAll('.menu a, .menu summary, .lock-icon, .button')]
   .filter(e => e.getClientRects().length)
   .map(e => { const r = e.getBoundingClientRect();
     const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
     return (e.textContent.trim() || 'lock') + (e.contains(hit) ? ': ok' : ': BLOCKED by ' + hit.tagName); })
 ```
 
-Every line must end in `ok`. Open `…` and paste it again for the fold-out's links. Then really click: the lock must open its field, and `…` must open its list. Do it on every starter page and the specimen.
+Every line must end in `ok`. Open `…` and paste it again for the fold-out's links. Then really click: the lock must open its field, and `…` must open its list. On a page with a side link beside the lock, really click the side link: it must open its page, not the field. Do it on every starter page and the specimen.
 
 ## 7. Starter pages
 
-`site/` holds five pages to copy. All of them carry the stamp and link the site icon (`favicon-32.png`, `favicon.svg`, `apple-touch-icon.png`, see Site icon).
+`site/` holds eight pages to copy. All of them carry the stamp and link the site icon (`favicon-32.png`, `favicon.svg`, `apple-touch-icon.png`, see Site icon).
 
 | File | What it is |
 |---|---|
@@ -298,6 +370,9 @@ Every line must end in `ok`. Open `…` and paste it again for the fold-out's li
 | `list.html` | list page: a column of links and `←` |
 | `reading.html` | reading page: longer text, starting high |
 | `404.html` | not found: `her er intet` and `←` |
+| `log.html` | dated list |
+| `post.html` | a longer text with marks |
+| `form.html` | a form |
 
 ## 8. Security baseline
 
@@ -430,7 +505,6 @@ Not in the theme yet. Each waits until a real page needs it.
 
 - **hairline pause:** a short centred hairline between two parts of a page
 - **one picture:** an image page with a small grey caption
-- **log:** grey dates next to ink titles
 - **facts:** labels and values, for example a contact page
 - **specimen online:** showing the specimen page as a public website
 
@@ -438,6 +512,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.3.0** (2026-11-19): new: side link, column, title, meta, log, prose and form pieces, the token --column, and three starter pages (log.html, post.html, form.html). .lock now lays itself out, so it can sit inside a <div class="menu">. Pages made for 1.2 look the same.
 - **1.2.1** (2026-11-18): fix: a PNG backup for the tab icon, `site/favicon-32.png`, for browsers that can't show the SVG (some Safari versions). Linked before the SVG on every starter page and the specimen; `/favicon.ico` should now go to the PNG, not the SVG (see Site icon). Nothing looks different. To get it in a site, copy the file and add the PNG `<link>` line above the SVG one.
 - **1.2.0** (2026-11-18): new: the site icon. The stamp as `site/favicon.svg` and `site/apple-touch-icon.png`, linked from every starter page and the specimen (see Site icon). Pages look the same; to get the icon in a site, copy the two files and add the two `<link>` lines.
 - **1.1.1** (2026-11-18): fix: the menu links, `…` and the lock could not be clicked, because the centre (made positioned in 1.1.0 for the stamp) was drawn over the menu. The menu now sits above it (`z-index: 2`). Nothing looks different. New: the click check in section 6.

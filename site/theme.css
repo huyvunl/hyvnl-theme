@@ -1,4 +1,4 @@
-/* hyvnl-theme 1.2.1
+/* hyvnl-theme 1.3.0
    The shared look for my sites: ink on paper, lots of empty space.
    Don't edit this copy. Change it in the hyvnl-theme repo, then copy it in again.
    Guide: GUIDE.md in the hyvnl-theme repo. */
@@ -38,6 +38,7 @@
   --edge-bottom: 24px;
   --tap: 44px;
   --gutter: 16px;
+  --column: 22rem; /* width of a left-aligned column: 26em of body text */
 
   /* motion: how slowly a link turns from grey to ink */
   --ink-fade: 0.6s;
@@ -183,6 +184,134 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 }
 .back:hover, .back:focus { color: var(--ink); }
 
+/* ---------- side link: one link at the start of the top-right corner ----------
+   Shows on phones too. Steps aside while the password field is open, so the field fits. */
+.lock { display: flex; align-items: center; }
+.menu-side { display: block; line-height: var(--tap); }
+/* Beside a lock, the link is written AFTER the lock form (so pressing it never opens the field)
+   and shown before it. While the field is open, the link steps aside so the field fits. */
+.lock ~ .menu-side { order: -1; }
+.lock:focus-within ~ .menu-side, .lock[data-open] ~ .menu-side { display: none; }
+
+/* ---------- column: a left-aligned column for longer pages (log, post, form) ---------- */
+.log, .title, .meta, .prose, .form {
+  width: 100%;
+  max-width: var(--column);
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- title: a page's own title in the column, when the corner holds the site part ---------- */
+.title {
+  margin: 0;
+  font-size: var(--size-title);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+}
+
+/* ---------- meta: a grey line of small facts, with · between ---------- */
+.meta {
+  margin: 0;
+  font-size: var(--size-menu);
+  letter-spacing: 0.1em;
+  line-height: 2;
+  color: var(--grey);
+}
+.title + .meta { margin-top: 0.4em; }
+.meta + .prose, .meta + .log, .meta + .form, .title + .log, .title + .form { margin-top: 2.4em; }
+.prose + .meta, .log + .meta { margin-top: 2.4em; }
+.meta + .back, .prose + .back, .log + .back, .form + .back, .line + .back { margin-top: 24px; }
+.line + .form { margin-top: 2em; }
+
+/* ---------- log: grey dates next to ink titles ---------- */
+.log {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--size-menu);
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+}
+.log li { display: grid; grid-template-columns: 7.5em 1fr; gap: 0 1.2em; padding: 0.5em 0; }
+.log-date { color: var(--grey); white-space: nowrap; }
+.log a { color: var(--ink); text-underline-offset: 0.3em; text-decoration-color: var(--hairline); }
+.log a:hover { text-decoration-line: underline; }
+
+/* ---------- prose: longer text with simple marks ---------- */
+.prose {
+  font-size: var(--size-text);
+  line-height: 2;
+  letter-spacing: 0.05em;
+  color: var(--grey);
+}
+.prose > * { margin: 0; }
+.prose > * + * { margin-top: 1.4em; }
+.prose > * + h2, .prose > * + h3 { margin-top: 2.4em; }
+.prose h2, .prose h3 { font-size: var(--size-text); line-height: 1.6; letter-spacing: 0.1em; color: var(--ink); }
+.prose h2 { font-weight: 600; }
+.prose h3 { font-weight: normal; }
+.prose ul, .prose ol { padding-left: 1.4em; }
+.prose strong { font-weight: 600; color: var(--ink); }
+.prose a { text-decoration: underline; text-decoration-color: var(--hairline); text-underline-offset: 0.3em; }
+.prose a:hover { text-decoration-color: var(--ink); }
+
+/* ---------- form: labels, fields and one quiet button, no script ---------- */
+.form { margin: 0; }
+.field-label {
+  display: block;
+  font-size: var(--size-menu);
+  letter-spacing: 0.2em;
+  color: var(--grey);
+}
+.field-label:not(:first-child) { margin-top: 2em; }
+.field, .area {
+  display: block;
+  width: 100%;
+  margin: 0.3em 0 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--size-input);
+  letter-spacing: 0.05em;
+  outline: none;
+}
+.field { padding: 6px 0; border-bottom: 1px solid var(--grey); }
+.area { min-height: 18em; padding: 10px; border: 1px solid var(--hairline); line-height: 1.8; resize: vertical; }
+.field:focus, .area:focus { border-color: var(--ink); }
+.hint {
+  margin: 0.5em 0 0;
+  font-size: var(--size-menu);
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+  color: var(--grey);
+}
+.notice { margin: 0.5em 0 0; font-size: var(--size-menu); letter-spacing: 0.1em; line-height: 1.8; color: var(--ink); }
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.6em;
+  margin-top: 2.4em;
+  font-size: var(--size-menu);
+  letter-spacing: 0.2em;
+}
+.button {
+  min-height: var(--tap);
+  padding: 0 1.6em;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: background-color var(--ink-fade) ease, color var(--ink-fade) ease;
+}
+.button:hover { background: var(--ink); color: var(--paper); }
+.button:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+
 /* ---------- lock: the icon turns into a password field, no script ---------- */
 .lock-field {
   width: 0; opacity: 0; padding: 4px 0; margin: 0;
@@ -234,7 +363,7 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 
 /* ---------- less motion when the device asks for it ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .lock-field, a, .lock-icon { transition: none; }
+  .lock-field, a, .lock-icon, .button { transition: none; }
 }
 
 /* ---------- phone: narrower than 600px, only "…" shows ----------
@@ -247,9 +376,9 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 /* ---------- print: ink on white paper, title and words only ---------- */
 @media print {
   body { background: #fff; color: #000; }
-  .menu, .back, .stamp { display: none; }
+  .menu, .back, .stamp, .form, .actions { display: none; }
   .center, .center.reading { display: block; min-height: 0; padding: 0; text-align: left; }
   .name { position: static; margin-bottom: 1em; }
-  .line, .text, .list, a { color: #000; }
-  .text { max-width: none; }
+  .line, .text, .list, .meta, .prose, .log-date, a { color: #000; }
+  .text, .log, .title, .meta, .prose { max-width: none; }
 }
