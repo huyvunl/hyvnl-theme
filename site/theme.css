@@ -1,4 +1,4 @@
-/* hyvnl-theme 1.3.0
+/* hyvnl-theme 1.4.0
    The shared look for my sites: ink on paper, lots of empty space.
    Don't edit this copy. Change it in the hyvnl-theme repo, then copy it in again.
    Guide: GUIDE.md in the hyvnl-theme repo. */
@@ -311,6 +311,27 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 }
 .button:hover { background: var(--ink); color: var(--paper); }
 .button:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+
+/* ---------- choices: checkboxes in a group, no script ----------
+   A <fieldset class="choices"> with a <legend>, one <label class="choice"> per box. Can sit inside a .form. */
+.choices { margin: 2em 0 0; padding: 0; border: 0; min-width: 0; }
+.choices legend { padding: 0; font-size: var(--size-menu); letter-spacing: 0.2em; color: var(--ink); }
+.choices legend + .field-label { margin-top: 1.2em; }
+.choices .choices { margin-top: 2em; }
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  min-height: var(--tap);
+  font-size: var(--size-menu);
+  letter-spacing: 0.2em;
+  color: var(--grey);
+  cursor: pointer;
+}
+.choice input { flex: none; width: 16px; height: 16px; margin: 0; accent-color: var(--ink); cursor: pointer; }
+.choice input:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+.choices + .actions { margin-top: 1.2em; }
+.form + .form { margin-top: 3.6em; }
 
 /* ---------- lock: the icon turns into a password field, no script ---------- */
 .lock-field {

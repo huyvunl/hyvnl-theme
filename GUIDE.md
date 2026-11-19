@@ -241,6 +241,20 @@ Labels above fields, one quiet button and a `fortryd` link (`.form`, `.field-lab
 - Do: a label for every field.
 - Don't: placeholders instead of labels.
 
+### Choices
+
+Checkboxes in a group, with a small ink heading (`.choices`, `.choice`). Each box sits inside its own label, so the whole line takes the tap. It can sit inside a Form, before its `.actions`. Two forms in a row get room between them. Copy the HTML from `site/form.html`.
+
+```html
+<fieldset class="choices"><legend>vis på</legend>
+  <label class="choice"><input type="checkbox" name="vis" value="forside" checked>forsiden</label>
+  <label class="choice"><input type="checkbox" name="vis" value="noter">noter</label>
+</fieldset>
+```
+
+- Do: short labels, lowercase; the legend says what the boxes are about.
+- Don't: use it for one single yes/no (write one choice without a fieldset instead).
+
 ### Stamp
 
 A small faded blue dot with a see-through lime dot resting low inside it, in the bottom-right corner, like a name stamp on a print. It is the theme's only colour. Put it as the last thing inside `<main class="center">`. On a long page it sits at the very end.
@@ -512,6 +526,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.4.0** (2026-11-19): new: the choices piece (checkboxes in a group, `.choices`, `.choice`), shown in `site/form.html` and the specimen, and room between two forms in a row (`.form + .form`). Pages made for 1.3 look the same.
 - **1.3.0** (2026-11-19): new: side link, column, title, meta, log, prose and form pieces, the token --column, and three starter pages (log.html, post.html, form.html). .lock now lays itself out, so it can sit inside a <div class="menu">. Pages made for 1.2 look the same.
 - **1.2.1** (2026-11-18): fix: a PNG backup for the tab icon, `site/favicon-32.png`, for browsers that can't show the SVG (some Safari versions). Linked before the SVG on every starter page and the specimen; `/favicon.ico` should now go to the PNG, not the SVG (see Site icon). Nothing looks different. To get it in a site, copy the file and add the PNG `<link>` line above the SVG one.
 - **1.2.0** (2026-11-18): new: the site icon. The stamp as `site/favicon.svg` and `site/apple-touch-icon.png`, linked from every starter page and the specimen (see Site icon). Pages look the same; to get the icon in a site, copy the two files and add the two `<link>` lines.
