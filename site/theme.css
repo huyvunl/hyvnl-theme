@@ -1,4 +1,4 @@
-/* hyvnl-theme 1.4.0
+/* hyvnl-theme 1.5.0
    The shared look for my sites: ink on paper, lots of empty space.
    Don't edit this copy. Change it in the hyvnl-theme repo, then copy it in again.
    Guide: GUIDE.md in the hyvnl-theme repo. */
@@ -333,6 +333,116 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 .choices + .actions { margin-top: 1.2em; }
 .form + .form { margin-top: 3.6em; }
 
+/* ---------- wide: a full-width page that starts top left (an overview, a dashboard) ----------
+   <main class="wide"> instead of <main class="center">. The corner title, menu and stamp work the same. */
+.wide {
+  position: relative;
+  min-height: 100%;
+  padding: 96px var(--edge-left);
+}
+.wide .title, .wide .meta { max-width: none; }
+.cards + .back { margin-top: 24px; }
+
+/* ---------- head: a title with something small beside it (for example a pop-out "+") ---------- */
+.head { position: relative; display: flex; align-items: center; gap: 0.6em; }
+.head .title { width: auto; }
+.head + .meta { margin-top: 0.4em; }
+
+/* ---------- cards: a grid of equal boxes, as many per row as fit ----------
+   <ul class="cards"> with one <li class="card"> each. Every card is as tall as the tallest one. */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  grid-auto-rows: 1fr;
+  gap: var(--gutter);
+  margin: 2.4em 0 0;
+  padding: 0;
+  list-style: none;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 15rem;
+  padding: 20px;
+  border: 1px solid var(--hairline);
+  overflow-wrap: anywhere;
+}
+.card-name { margin: 0; font-size: var(--size-title); font-weight: 600; letter-spacing: 0.1em; line-height: 1.6; }
+.card-line { margin: 0.2em 0 0; font-size: var(--size-menu); letter-spacing: 0.1em; line-height: 1.9; color: var(--grey); }
+.card-name + .card-line { margin-top: 0.9em; }
+.card-label { margin-right: 0.6em; font-weight: 600; color: var(--ink); }
+.card .notice { margin-top: 0.6em; }
+/* the card's own links or pop-outs, on one line at the bottom */
+.card-actions {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1.2em;
+  margin-top: auto;
+  padding-top: 0.6em;
+  font-size: var(--size-menu);
+  letter-spacing: 0.2em;
+}
+.card-actions a { line-height: var(--tap); }
+
+/* ---------- toggles: words that switch on and off, no script ----------
+   A <fieldset class="toggles"> with a <legend>, one <label class="toggle"> per word, each holding a real
+   checkbox. On: ink with a line under it. Off: grey. (Browsers older than 2023 show no difference.) */
+.toggles { display: flex; flex-wrap: wrap; gap: 0 1.2em; margin: 0; padding: 0; border: 0; min-width: 0; }
+.toggles + .toggles { margin-top: 0.8em; }
+.toggles legend { padding: 0; font-size: var(--size-menu); font-weight: 600; letter-spacing: 0.2em; color: var(--ink); }
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  font-size: var(--size-menu);
+  letter-spacing: 0.15em;
+  color: var(--grey);
+  cursor: pointer;
+  transition: color var(--ink-fade) ease;
+}
+.toggle input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; }
+.toggle:hover { color: var(--ink); }
+.toggle:has(input:checked) { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink); text-underline-offset: 0.45em; }
+.toggle:has(input:focus-visible) { outline: 1px solid var(--ink); outline-offset: 2px; }
+.toggles + .actions { margin-top: 1.2em; }
+
+/* ---------- pop-out: a word (or "+") that opens a framed panel over the page, no script ----------
+   <details class="pop" name="…"><summary>…</summary><div class="pop-panel">…</div></details>
+   Pop-outs with the same name close each other (browsers from 2024). Inside .head the panel hangs under the
+   title; inside .card-actions it is as wide as the card. */
+.pop > summary {
+  display: block;
+  line-height: var(--tap);
+  list-style: none;
+  color: var(--grey);
+  cursor: pointer;
+  transition: color var(--ink-fade) ease;
+}
+.pop > summary::-webkit-details-marker { display: none; }
+.pop > summary:hover, .pop[open] > summary { color: var(--ink); }
+.pop > summary:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+.pop-add > summary { min-width: var(--tap); text-align: center; font-size: var(--size-more); }
+.pop-panel {
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  width: min(var(--column), calc(100vw - 2 * var(--edge-left)));
+  padding: 20px;
+  border: 1px solid var(--hairline);
+  background: var(--paper);
+  text-align: left;
+}
+.card-actions .pop-panel { left: -21px; right: -21px; width: auto; }
+.pop-panel .form { max-width: none; }
+.pop-panel .actions { margin-top: 1.2em; }
+.pop-panel .line { text-align: left; padding-left: 0; }
+
 /* ---------- lock: the icon turns into a password field, no script ---------- */
 .lock-field {
   width: 0; opacity: 0; padding: 4px 0; margin: 0;
@@ -384,7 +494,7 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 
 /* ---------- less motion when the device asks for it ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .lock-field, a, .lock-icon, .button { transition: none; }
+  .lock-field, a, .lock-icon, .button, .toggle, .pop > summary { transition: none; }
 }
 
 /* ---------- phone: narrower than 600px, only "…" shows ----------
@@ -392,12 +502,16 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 @media (max-width: 599px) {
   .menu-links { display: none; }
   .phone-only { display: block; }
+  .card { min-height: 0; }
 }
 
 /* ---------- print: ink on white paper, title and words only ---------- */
 @media print {
   body { background: #fff; color: #000; }
-  .menu, .back, .stamp, .form, .actions { display: none; }
+  .menu, .back, .stamp, .form, .actions, .card-actions { display: none; }
+  .wide { padding: 0; }
+  .cards { display: block; }
+  .card { min-height: 0; margin-bottom: 1em; }
   .center, .center.reading { display: block; min-height: 0; padding: 0; text-align: left; }
   .name { position: static; margin-bottom: 1em; }
   .line, .text, .list, .meta, .prose, .log-date, a { color: #000; }

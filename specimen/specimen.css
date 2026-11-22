@@ -36,6 +36,12 @@ body { height: auto; }
 .frame-desk { width: 560px; height: 330px; }
 .frame-phone { width: 180px; height: 360px; border-radius: 14px; }
 .frame-thumb { width: 168px; height: 124px; }
+/* the wide page inside a small frame: less room around it, smaller cards */
+.frame .wide { min-height: 0; height: 100%; padding: 30px 14px 0; }
+.frame .spec-cards { padding-top: 12px; }
+.frame .cards { grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 0.6em; }
+.frame .card { min-height: 0; padding: 8px; }
+.frame .pop-panel { width: 220px; padding: 10px; }
 .frame-thumb .line, .frame-thumb .list { font-size: 0.7rem; }
 .frame .center.reading { padding-top: 48px; padding-bottom: 0; }
 /* the 1.3.0 pieces, drawn small so they fit a frame */

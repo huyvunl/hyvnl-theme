@@ -255,6 +255,65 @@ Checkboxes in a group, with a small ink heading (`.choices`, `.choice`). Each bo
 - Do: short labels, lowercase; the legend says what the boxes are about.
 - Don't: use it for one single yes/no (write one choice without a fieldset instead).
 
+### Wide page and head
+
+A full-width page that starts top left, for an overview or a dashboard (`.wide` on `<main>` instead of `.center`). The corner title, menu, `←` and stamp work as on every page. `.head` puts something small beside the title, for example a pop-out `+`. Copy the HTML from `site/cards.html`.
+
+```html
+<main class="wide">
+  <div class="head"><h1 class="title">oversigt</h1> … </div>
+  <p class="meta">tre noter</p>
+  …
+</main>
+```
+
+- Do: keep it for pages that show many things side by side.
+- Don't: use it for reading; text pages stay in the centre.
+
+### Cards
+
+A grid of equal boxes with a hairline frame (`.cards`, `.card`, `.card-name`, `.card-line`, `.card-label`, `.card-actions`). As many fit per row as there is room for (one on a phone), and every card is as tall as the tallest one, so the grid stays even. A card's own links or pop-outs sit on one line at the bottom. Copy the HTML from `site/cards.html`.
+
+```html
+<ul class="cards">
+  <li class="card">
+    <h2 class="card-name">en-morgen</h2>
+    <p class="card-line"><span class="card-label">emner</span>rejser · te</p>
+    <div class="card-actions"><a href="/post.html">åbn</a></div>
+  </li>
+</ul>
+```
+
+- Do: short lines; a semi-bold label, then grey values with ` · ` between.
+- Don't: put long text in a card; it makes every card that tall.
+
+### Toggles
+
+Words that switch on and off (`.toggles`, `.toggle`), a quieter choice than checkboxes. Each word holds a real checkbox, hidden but still there, so it works without scripts, with the keyboard and with screen readers. On: ink with a line under it. Off: grey. Browsers older than 2023 show no difference between on and off, so use Choices where that matters. Copy the HTML from `site/cards.html`.
+
+```html
+<fieldset class="toggles"><legend>vises på</legend>
+  <label class="toggle"><input type="checkbox" name="vis" value="forside" checked>forsiden</label>
+  <label class="toggle"><input type="checkbox" name="vis" value="noter">noter</label>
+</fieldset>
+```
+
+- Do: short words, lowercase; the legend says what they are about.
+- Don't: mix toggles and checkboxes on one page.
+
+### Pop-out
+
+A word (or `+`) that opens a framed panel over the page, without scripts (`.pop`, `.pop-add` for a `+`, `.pop-panel`). Pressing the word again, or a `fortryd` link back to the page, closes it. Give every pop-out on a page the same `name`: then opening one closes the others (browsers from 2024; older ones simply leave them open). Inside `.head` the panel hangs under the title; inside `.card-actions` it is as wide as the card. An open panel covers what is under it until it is closed. Copy the HTML from `site/cards.html`.
+
+```html
+<details class="pop" name="kort"><summary aria-label="ret en-morgen">ret</summary><div class="pop-panel">
+  <form class="form" method="post" action="/gem"> … </form>
+</div></details>
+```
+
+- Do: a short form or one question per panel; an `aria-label` that names the thing it belongs to.
+- Don't: put a pop-out inside a pop-out.
+
 ### Stamp
 
 A small faded blue dot with a see-through lime dot resting low inside it, in the bottom-right corner, like a name stamp on a print. It is the theme's only colour. Put it as the last thing inside `<main class="center">`. On a long page it sits at the very end.
@@ -364,7 +423,7 @@ Check before publishing:
 **Click check.** Something invisible drawn on top of the menu can swallow its clicks while the page still looks right (that was the 1.1.0 bug). In the browser, set the width (developer tools → device toolbar), open the console and paste:
 
 ```js
-[...document.querySelectorAll('.menu a, .menu summary, .lock-icon, .button')]
+[...document.querySelectorAll('.menu a, .menu summary, .lock-icon, .button, .pop > summary')]
   .filter(e => e.getClientRects().length)
   .map(e => { const r = e.getBoundingClientRect();
     const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
@@ -375,7 +434,7 @@ Every line must end in `ok`. Open `…` and paste it again for the fold-out's li
 
 ## 7. Starter pages
 
-`site/` holds eight pages to copy. All of them carry the stamp and link the site icon (`favicon-32.png`, `favicon.svg`, `apple-touch-icon.png`, see Site icon).
+`site/` holds nine pages to copy. All of them carry the stamp and link the site icon (`favicon-32.png`, `favicon.svg`, `apple-touch-icon.png`, see Site icon).
 
 | File | What it is |
 |---|---|
@@ -387,6 +446,7 @@ Every line must end in `ok`. Open `…` and paste it again for the fold-out's li
 | `log.html` | dated list |
 | `post.html` | a longer text with marks |
 | `form.html` | a form |
+| `cards.html` | an overview: a wide page with cards, toggles and pop-outs |
 
 ## 8. Security baseline
 
@@ -526,6 +586,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.5.0** (2026-11-21): new: the wide page and head (`.wide`, `.head`), cards (`.cards`, `.card` and its parts; equal heights), toggles (`.toggles`, `.toggle`: words that switch on and off) and the pop-out (`.pop`, `.pop-add`, `.pop-panel`), shown in a ninth starter page, `site/cards.html`, and the specimen. Pages made for 1.4 look the same.
 - **1.4.0** (2026-11-19): new: the choices piece (checkboxes in a group, `.choices`, `.choice`), shown in `site/form.html` and the specimen, and room between two forms in a row (`.form + .form`). Pages made for 1.3 look the same.
 - **1.3.0** (2026-11-19): new: side link, column, title, meta, log, prose and form pieces, the token --column, and three starter pages (log.html, post.html, form.html). .lock now lays itself out, so it can sit inside a <div class="menu">. Pages made for 1.2 look the same.
 - **1.2.1** (2026-11-18): fix: a PNG backup for the tab icon, `site/favicon-32.png`, for browsers that can't show the SVG (some Safari versions). Linked before the SVG on every starter page and the specimen; `/favicon.ico` should now go to the PNG, not the SVG (see Site icon). Nothing looks different. To get it in a site, copy the file and add the PNG `<link>` line above the SVG one.

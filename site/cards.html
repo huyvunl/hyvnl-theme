@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oversigt · sidenavn</title>
+<link rel="stylesheet" href="/theme.css">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<nav class="menu" aria-label="Menu">
+  <a class="menu-side" href="/log.html">noter</a>
+  <ul class="menu-links">
+    <li><a href="/page.html">link et</a></li>
+    <li><span class="dot" aria-hidden="true">·</span><a href="/list.html">link to</a></li>
+    <li><span class="dot" aria-hidden="true">·</span><a href="/reading.html">link tre</a></li>
+  </ul>
+  <details class="more">
+    <summary aria-label="Flere links">…</summary>
+    <ul>
+      <li class="phone-only"><a href="/page.html">link et</a></li>
+      <li class="phone-only"><a href="/list.html">link to</a></li>
+      <li class="phone-only"><a href="/reading.html">link tre</a></li>
+      <li><a href="#">link fire</a></li>
+      <li><a href="#">link fem</a></li>
+    </ul>
+  </details>
+</nav>
+<main class="wide">
+  <a class="name" href="/log.html">noter</a>
+  <div class="head">
+    <h1 class="title">oversigt</h1>
+    <details class="pop pop-add" name="kort"><summary aria-label="ny note">+</summary><div class="pop-panel">
+      <form class="form" method="post" action="/ny">
+        <label class="field-label" for="titel">titel</label>
+        <input class="field" id="titel" name="titel" type="text" required>
+        <div class="actions"><button class="button" type="submit">opret</button><a href="/cards.html">fortryd</a></div>
+      </form></div></details>
+  </div>
+  <p class="meta">tre noter</p>
+  <ul class="cards">
+    <li class="card" id="n-en-morgen">
+      <h2 class="card-name">en-morgen</h2>
+      <p class="card-line"><span class="card-label">vises</span>forsiden · noter</p>
+      <p class="card-line"><span class="card-label">emner</span>rejser · te</p>
+      <div class="card-actions">
+        <details class="pop" name="kort"><summary aria-label="ret en-morgen">ret</summary><div class="pop-panel">
+        <form class="form" method="post" action="/gem">
+        <fieldset class="toggles"><legend>vises på</legend>
+          <label class="toggle"><input type="checkbox" name="vis" value="forside" checked>forsiden</label>
+          <label class="toggle"><input type="checkbox" name="vis" value="noter" checked>noter</label>
+        </fieldset>
+          <div class="actions"><button class="button" type="submit">gem</button><a href="/cards.html">fortryd</a></div>
+        </form></div></details>
+        <a href="/post.html">åbn</a>
+      </div>
+    </li>
+    <li class="card" id="n-te-langsomt">
+      <h2 class="card-name">te-langsomt</h2>
+      <p class="card-line"><span class="card-label">vises</span>noter</p>
+      <p class="card-line"><span class="card-label">emner</span>te</p>
+      <div class="card-actions">
+        <details class="pop" name="kort"><summary aria-label="ret te-langsomt">ret</summary><div class="pop-panel">
+        <form class="form" method="post" action="/gem">
+        <fieldset class="toggles"><legend>vises på</legend>
+          <label class="toggle"><input type="checkbox" name="vis" value="forside">forsiden</label>
+          <label class="toggle"><input type="checkbox" name="vis" value="noter" checked>noter</label>
+        </fieldset>
+          <div class="actions"><button class="button" type="submit">gem</button><a href="/cards.html">fortryd</a></div>
+        </form></div></details>
+        <a href="/post.html">åbn</a>
+      </div>
+    </li>
+    <li class="card" id="n-et-udkast">
+      <h2 class="card-name">et-udkast</h2>
+      <p class="card-line"><span class="card-label">vises</span>intet</p>
+      <p class="card-line"><span class="card-label">emner</span>intet</p>
+      <div class="card-actions">
+        <details class="pop" name="kort"><summary aria-label="ret et-udkast">ret</summary><div class="pop-panel">
+        <form class="form" method="post" action="/gem">
+        <fieldset class="toggles"><legend>vises på</legend>
+          <label class="toggle"><input type="checkbox" name="vis" value="forside">forsiden</label>
+          <label class="toggle"><input type="checkbox" name="vis" value="noter">noter</label>
+        </fieldset>
+          <div class="actions"><button class="button" type="submit">gem</button><a href="/cards.html">fortryd</a></div>
+        </form></div></details>
+        <a href="/post.html">åbn</a>
+      </div>
+    </li>
+  </ul>
+  <a class="back" href="/" aria-label="Tilbage til forsiden">←</a>
+  <span class="stamp" aria-hidden="true"></span>
+</main>
+</body>
+</html>
