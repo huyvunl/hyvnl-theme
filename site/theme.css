@@ -1,4 +1,4 @@
-/* hyvnl-theme 1.6.0
+/* hyvnl-theme 1.7.0
    The shared look for my sites: ink on paper, lots of empty space.
    Don't edit this copy. Change it in the hyvnl-theme repo, then copy it in again.
    Guide: GUIDE.md in the hyvnl-theme repo. */
@@ -65,6 +65,8 @@ a[aria-current="page"] { color: var(--ink); }
 a:focus-visible, summary:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
 ::selection { background: var(--hairline); color: var(--ink); }
 a, .lock-icon { transition: color var(--ink-fade) ease; }
+/* hidden means hidden, even for pieces that set their own display (1.7.0) */
+[hidden] { display: none !important; }
 
 /* ---------- menu: top right, links with a dot between, "…" folds out more ----------
    z-index keeps the menu above main.center (full height, positioned, and later in the page),
@@ -352,6 +354,88 @@ a.name { color: var(--ink); }
 .choice input:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
 .choices + .actions { margin-top: 1.2em; }
 .form + .form { margin-top: 3.6em; }
+
+/* ---------- editor: a writing window with a quiet row of tools (1.7.0) ----------
+   Look only: the site's own script builds it in place of a .area (and keeps the .area for when scripts are
+   off). A .editor holds a .editor-bar (role="toolbar") of .editor-tool buttons, with .editor-gap between
+   groups, an optional .editor-link row (an address field and its buttons), and the .editor-area itself
+   (contenteditable). A tool that is on has aria-pressed="true": ink, underlined. */
+.editor { margin: 0.3em 0 0; border: 1px solid var(--hairline); }
+.editor:focus-within { border-color: var(--ink); }
+.editor-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--paper);
+}
+.editor-tool {
+  min-width: var(--tap);
+  height: var(--tap);
+  padding: 0 0.5em;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--grey);
+  font: inherit;
+  font-size: var(--size-input);
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: color var(--ink-fade) ease;
+}
+.editor-tool:hover { color: var(--ink); }
+.editor-tool[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-underline-offset: 0.35em; }
+.editor-tool:focus-visible { outline: 1px solid var(--ink); outline-offset: -8px; }
+.editor-tool.tool-b { font-weight: 600; }
+.editor-tool.tool-i { font-style: italic; }
+.editor-tool.is-word { padding: 0 0.6em; font-size: var(--size-menu); letter-spacing: 0.15em; }
+.editor-gap { width: 1px; height: 18px; margin: 0 4px; background: var(--hairline); }
+.editor-link {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--hairline);
+  font-size: var(--size-menu);
+  letter-spacing: 0.15em;
+  color: var(--grey);
+}
+.editor-link .field { flex: 1; min-width: 0; margin: 0; }
+.editor-link button {
+  min-width: var(--tap);
+  min-height: var(--tap);
+  padding: 0 0.4em;
+  border: 0;
+  background: transparent;
+  color: var(--grey);
+  font: inherit;
+  cursor: pointer;
+}
+.editor-link button:hover { color: var(--ink); }
+.editor-link button:focus-visible { outline: 1px solid var(--ink); outline-offset: -8px; }
+.editor-area {
+  min-height: 18em;
+  padding: 10px;
+  color: var(--ink);
+  font-size: var(--size-input);
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+  outline: none;
+  overflow-wrap: anywhere;
+}
+.editor-area > * { margin: 0; }
+.editor-area > * + * { margin-top: 1em; }
+.editor-area > * + h2, .editor-area > * + h3 { margin-top: 1.6em; }
+.editor-area h2, .editor-area h3 { font-size: var(--size-input); line-height: 1.8; letter-spacing: 0.1em; }
+.editor-area h2 { font-weight: 600; }
+.editor-area h3 { font-weight: normal; }
+.editor-area ul, .editor-area ol { padding-left: 1.4em; }
+.editor-area strong, .editor-area b { font-weight: 600; }
+.editor-area a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--grey); text-underline-offset: 0.3em; }
+.editor + .notice { margin-top: 0.5em; }
 
 /* ---------- wide: a full-width page that starts top left (an overview, a dashboard) ----------
    <main class="wide"> instead of <main class="center">. The corner title, menu and stamp work the same. */

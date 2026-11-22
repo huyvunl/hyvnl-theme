@@ -36,6 +36,10 @@ body { height: auto; }
 .frame-desk { width: 560px; height: 330px; }
 .frame-phone { width: 180px; height: 360px; border-radius: 14px; }
 .frame-thumb { width: 168px; height: 124px; }
+/* the editor, small enough for its frame */
+.frame .editor-tool { min-width: 0; height: 26px; padding: 0 6px; font-size: 0.7rem; }
+.frame .editor-tool.is-word { font-size: 0.6rem; }
+.frame .editor-area { min-height: 0; padding: 6px 8px; font-size: 0.7rem; line-height: 1.6; }
 /* the wide page inside a small frame: less room around it, smaller cards */
 .frame .wide { min-height: 0; height: 100%; padding: 30px 14px 0; }
 .frame .spec-cards { padding-top: 12px; }

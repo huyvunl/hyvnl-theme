@@ -21,7 +21,7 @@ Version: see the first line of `site/theme.css`. Changes are listed at the end. 
 2. **Ink on paper.** Paper, ink, grey and one hairline. One accent, the stamp, never used for text. No dark mode.
 3. **Nothing moves until you touch it.** No animation at rest. Movement stops when the device asks for less.
 4. **Fonts already on the device.** Japanese-style serifs, nothing downloaded.
-5. **Nothing needs a script.** Menus and the lock use what browsers already do.
+5. **Nothing needs a script.** Menus and the lock use what browsers already do. The one exception a site may make is its own small script for the editor (section 4), on the pages that hold one.
 6. **Danish, lowercase, short.** On the pages, words are few and quiet.
 7. **Every site keeps the security baseline** (section 8).
 
@@ -264,6 +264,39 @@ Checkboxes in a group, with a small ink heading (`.choices`, `.choice`). Each bo
 - Do: short labels, lowercase; the legend says what the boxes are about.
 - Don't: use it for one single yes/no (write one choice without a fieldset instead).
 
+### Editor (look only)
+
+A writing window for longer text: a quiet row of tools above an area that shows **bold**, *italic*, a heading, lists and links as they will look (`.editor`, `.editor-bar`, `.editor-tool`, `.editor-gap`, `.editor-link`, `.editor-area`). The theme only gives the look. **The site brings its own small script**, which builds the window in place of a `.area` and keeps the `.area` (hidden) for the form to send. With scripts off, the page is the plain `.area`, so a form with an editor always works without one.
+
+The HTML the script builds:
+
+```html
+<div class="editor">
+  <div class="editor-bar" role="toolbar" aria-label="formatering" aria-controls="tekst-vist">
+    <button type="button" class="editor-tool tool-b" aria-label="fed" aria-pressed="false">F</button>
+    <button type="button" class="editor-tool tool-i" aria-label="kursiv" aria-pressed="false">K</button>
+    <span class="editor-gap" aria-hidden="true"></span>
+    <button type="button" class="editor-tool" aria-label="overskrift" aria-pressed="false">Aa</button>
+    <button type="button" class="editor-tool" aria-label="punktliste" aria-pressed="false">•</button>
+    <button type="button" class="editor-tool" aria-label="nummereret liste" aria-pressed="false">1.</button>
+    <span class="editor-gap" aria-hidden="true"></span>
+    <button type="button" class="editor-tool is-word" aria-label="link" aria-pressed="false">link</button>
+  </div>
+  <div class="editor-link" hidden>
+    <label for="adresse">adresse</label><input class="field" id="adresse" type="text" inputmode="url">
+    <button type="button">ok</button><button type="button">fjern</button><button type="button" aria-label="luk">×</button>
+  </div>
+  <div class="editor-area" id="tekst-vist" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="tekst-label"></div>
+</div>
+```
+
+- A tool that is on gets `aria-pressed="true"`: ink, underlined.
+- The tools are letters, like a Danish word processor (**F** fed, *K* kursiv), so the row fits one line even 320px wide. Every tool has a Danish `aria-label` and is at least 44×44px.
+- The row stays at the top of the window while you scroll a long text (`position: sticky`).
+- `[hidden]` now always hides, even on pieces that set their own `display` (for example the `.area` the script hides).
+- Do: keep the tools to what the site can really store, and paste as plain text.
+- Don't: add colours, fonts or sizes. Ink on paper.
+
 ### Wide page and head
 
 A full-width page that starts top left, for an overview or a dashboard (`.wide` on `<main>` instead of `.center`). The corner title, menu and stamp work as on every page. `.head` puts something small beside the title, for example a pop-out `+`. Copy the HTML from `site/cards.html`.
@@ -440,7 +473,7 @@ Check before publishing:
 **Click check.** Something invisible drawn on top of the menu can swallow its clicks while the page still looks right (that was the 1.1.0 bug). In the browser, set the width (developer tools → device toolbar), open the console and paste:
 
 ```js
-[...document.querySelectorAll('a.name, .menu a, .menu summary, .lock-icon, .add, a.stamp, .button, .pop > summary')]
+[...document.querySelectorAll('a.name, .menu a, .menu summary, .lock-icon, .add, a.stamp, .button, .pop > summary, .editor-tool')]
   .filter(e => e.getClientRects().length)
   .map(e => { const r = e.getBoundingClientRect();
     const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
@@ -469,7 +502,7 @@ Every line must end in `ok`. Open `…` and paste it again for the fold-out's li
 
 Every site keeps all of this.
 
-- No scripts. No files from other websites (fonts, styles, images, scripts). No `style="…"` or `on…=` attributes. No `<style>` blocks: all styling is in `theme.css` and `site.css`.
+- No scripts. No files from other websites (fonts, styles, images, scripts). No `style="…"` or `on…=` attributes. No `<style>` blocks: all styling is in `theme.css` and `site.css`. (The one exception: a site's own script file for the editor, below.)
 - Every response carries these headers:
 
 ```
@@ -478,12 +511,16 @@ X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 Referrer-Policy: strict-origin-when-cross-origin
 Permissions-Policy: camera=(), microphone=(), geolocation=()
-Content-Security-Policy: default-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+Content-Security-Policy: default-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'none'
 ```
+
+`script-src 'none'` (new in 1.7.0) says it out loud: `default-src 'self'` alone would let the site's own scripts run. Add it to an older site's headers when you update it.
 
 Pages behind a password also get `Cache-Control: no-store`.
 
-In plain words: browsers only use https, don't guess file types, don't let other sites frame the page, send less to other sites, don't offer camera, microphone or location, and only load anything from the site's own address. The styles come from its own `/theme.css`, so `style-src 'self'` is enough.
+In plain words: browsers only use https, don't guess file types, don't let other sites frame the page, send less to other sites, don't offer camera, microphone or location, only load anything from the site's own address, and run no scripts at all. The styles come from its own `/theme.css`, so `style-src 'self'` is enough.
+
+**A page with an editor** (and only such a page) may run the site's own script file. Its CSP ends in `script-src 'self'; require-trusted-types-for 'script'; trusted-types 'none'` instead of `script-src 'none'`: only script files from the site's own address, nothing written inside the page, and no script may turn text into HTML. Every other page keeps `script-src 'none'`. Never add `'unsafe-inline'`, and never a script from another address.
 
 - **If the site's server code builds its responses itself**, it must add the headers in that code; a host's headers file may not apply to them.
 - If a site ever truly needs something from another address, change its CSP on purpose, and write down why in that site's docs.
@@ -603,6 +640,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.7.0** (2026-11-22): new: the editor (`.editor`, `.editor-bar`, `.editor-tool`, `.editor-gap`, `.editor-link`, `.editor-area`), the look of a writing window whose script the site brings itself; `[hidden]` now always hides. The security baseline now ends the CSP in `script-src 'none'`, and says what a page with an editor sends instead. Pages made for 1.6 look the same.
 - **1.6.0** (2026-11-22): new: the corner title as a link home on every page (`a.name`, in ink like the plain title), with the page's own `h1` visible or visually hidden; the current page underlined in the menu (`aria-current="page"`); the add link (`.add`, a quiet `+ word` above a list); the stamp as a link (`a.stamp`: same look, an invisible 44px tap area, a focus outline). Deprecated: the back arrow (`.back`); the starter pages and the specimen no longer use it, and its style stays until 2.0.0. Two small look changes on existing pages: a current menu link is now underlined, and a corner title that is a link is now ink instead of grey. Nothing has to change in old pages.
 - **1.5.0** (2026-11-21): new: the wide page and head (`.wide`, `.head`), cards (`.cards`, `.card` and its parts; equal heights), toggles (`.toggles`, `.toggle`: words that switch on and off) and the pop-out (`.pop`, `.pop-add`, `.pop-panel`), shown in a ninth starter page, `site/cards.html`, and the specimen. Pages made for 1.4 look the same.
 - **1.4.0** (2026-11-19): new: the choices piece (checkboxes in a group, `.choices`, `.choice`), shown in `site/form.html` and the specimen, and room between two forms in a row (`.form + .form`). Pages made for 1.3 look the same.

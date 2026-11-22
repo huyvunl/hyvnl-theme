@@ -9,9 +9,9 @@
 
 ![The specimen page's opening screen: the theme name, the four ideas, and the stamp in the corner](specimen/screens/concept.png)
 
-The shared look for my websites: one style file, nine starter pages, no scripts, nothing downloaded.
+The shared look for my websites: one style file, nine starter pages, no scripts, nothing downloaded. (A site may bring its own small script for the editor's writing window; the theme gives only its look.)
 
-![Every piece in each state: menu with the current page underlined, the open fold-out, hover and focus, the lock closed and open, the corner title, the add link, selection and the stamp](specimen/screens/pieces.png)
+![Every piece in each state: menu with the current page underlined, the open fold-out, hover and focus, the lock closed and open, the corner title, the add link, the editor, selection and the stamp](specimen/screens/pieces.png)
 
 ![The nine starter pages: front, short page, list, longer reading, not found, and more](specimen/screens/pages.png)
 
