@@ -376,25 +376,27 @@ A small faded blue dot with a see-through lime dot resting low inside it, in the
 
 ### Site icon
 
-The stamp is also the icon in the browser tab, in bookmarks and on a phone's home screen. Three files in `site/`:
+The stamp is also the icon in the browser tab, in bookmarks and on a phone's home screen. Four files in `site/`:
 
-- `favicon.svg`: the stamp as two plain circles on a clear background, filling the whole icon so it reads at 16px. Same colours and shape as `.stamp`.
-- `favicon-32.png`: the same drawing as a 32×32 picture on a clear background, for browsers that can't show an SVG tab icon (some Safari versions, older browsers).
-- `apple-touch-icon.png`: 180×180 for phones. A home-screen icon can't be see-through, so the stamp sits on the paper colour `#f6f4ef`.
+- `favicon.ico`: a real ICO file holding two pictures, 16×16 and 32×32, each drawn on its own so the stamp stays crisp, on a clear background. Safari and older browsers look for this one first.
+- `favicon-32.png`: the same drawing as a 32×32 picture on a clear background.
+- `favicon.svg`: the stamp as two plain circles on a clear background, filling the whole icon. Same colours and shape as `.stamp`. Browsers that show SVG tab icons take this.
+- `apple-touch-icon.png`: 180×180 for phones and for Safari's Favorites and start page. Apple expects an opaque square (iOS may fill anything see-through with a solid colour), and rounds the corners itself. So it is a full-bleed square of the stamp's blue `#8fa7bf` with the lime dot in the middle: it reads as the stamp and has no light square around it. Tabs never use it; they use the clear icons above.
 
-Put these three lines in every page's `<head>`, right after the theme, in this order:
+Put these four lines in every page's `<head>`, right after the theme, in this order:
 
 ```html
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 ```
 
-- Order: the PNG line first, the SVG line after it. Browsers that can show SVG take the SVG (some take the last icon they can read, and the PNG's `sizes="32x32"` stops others from preferring it); the rest skip the SVG and use the PNG.
+- Order: ICO first, then PNG, then SVG. Browsers that can show SVG take the SVG; Safari takes what it can read from the first lines. No `mask-icon`: Safari dropped pinned-tab icons that need it.
 
-- Do: serve all three files from the site's own address (the CSP's `img-src 'self'` allows them), with the headers from section 8.
-- Do: send browsers asking for the old `/favicon.ico` to `/favicon-32.png` (a redirect, or answer it with the PNG), so they don't get a 404. Not to the SVG: browsers that ask for `.ico` can't read SVG.
-- Don't: change their colours per site, or redraw one file without the others. Browsers keep icons a long time, so after a change a hard refresh may be needed to see it.
+- Do: serve the four files from the site's own address (the CSP's `img-src 'self'` allows them), with the headers from section 8, except caching: they hold nothing private, so let them be kept for a day (`Cache-Control: public, max-age=86400`). Safari keeps its own icon store and tends to skip icons sent with `no-store`. Send `favicon.ico` as `image/x-icon`.
+- Do: answer `/favicon.ico` with the ICO file itself (no redirect: browsers keep a redirect for a very long time).
+- Don't: change their colours per site, or redraw one file without the others. Browsers keep icons a long time, so after a change a hard refresh, or clearing Safari's icon cache, may be needed to see it.
 
 ### Paper by season
 
@@ -484,7 +486,7 @@ Every line must end in `ok`. Open `…` and paste it again for the fold-out's li
 
 ## 7. Starter pages
 
-`site/` holds nine pages to copy. All of them carry the stamp and link the site icon (`favicon-32.png`, `favicon.svg`, `apple-touch-icon.png`, see Site icon).
+`site/` holds nine pages to copy. All of them carry the stamp and link the site icon (`favicon.ico`, `favicon-32.png`, `favicon.svg`, `apple-touch-icon.png`, see Site icon).
 
 | File | What it is |
 |---|---|
@@ -559,7 +561,7 @@ python3 -m http.server 8000 --directory site
 
 Then open http://localhost:8000. (Double-clicking a file won't load the style, because `/theme.css` needs a server.)
 
-6. Hosting: anything that serves the pages, `/theme.css`, `/favicon-32.png`, `/favicon.svg` and `/apple-touch-icon.png`, and adds the headers from section 8. If the host supports clean addresses, links can be `/side` instead of `/page.html`. Set the host to send `404.html` for wrong addresses.
+6. Hosting: anything that serves the pages, `/theme.css`, `/favicon.ico`, `/favicon-32.png`, `/favicon.svg` and `/apple-touch-icon.png`, and adds the headers from section 8. If the host supports clean addresses, links can be `/side` instead of `/page.html`. Set the host to send `404.html` for wrong addresses.
 7. Run the check in section 8 and the checklist in section 6, then publish the way that site's README says.
 
 ### Update a site
@@ -640,6 +642,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.7.1** (2026-11-22): fix: the site icon in Safari and on light backgrounds. New `site/favicon.ico` (a real ICO with 16×16 and 32×32 pictures); `favicon-32.png` is redrawn with its metadata stripped; `apple-touch-icon.png` is now a full-bleed blue square with the lime dot, not the stamp on a paper-coloured square, so no light square shows in Safari's Favorites. The head now has four icon lines, ICO first (see Site icon), and the icon files should be cached for a day instead of `no-store`. Pages look the same. To get the fix in a site, copy the three changed files, add the ICO file and its `<link>` line, and give the icon files normal caching.
 - **1.7.0** (2026-11-22): new: the editor (`.editor`, `.editor-bar`, `.editor-tool`, `.editor-gap`, `.editor-link`, `.editor-area`), the look of a writing window whose script the site brings itself; `[hidden]` now always hides. The security baseline now ends the CSP in `script-src 'none'`, and says what a page with an editor sends instead. Pages made for 1.6 look the same.
 - **1.6.0** (2026-11-22): new: the corner title as a link home on every page (`a.name`, in ink like the plain title), with the page's own `h1` visible or visually hidden; the current page underlined in the menu (`aria-current="page"`); the add link (`.add`, a quiet `+ word` above a list); the stamp as a link (`a.stamp`: same look, an invisible 44px tap area, a focus outline). Deprecated: the back arrow (`.back`); the starter pages and the specimen no longer use it, and its style stays until 2.0.0. Two small look changes on existing pages: a current menu link is now underlined, and a corner title that is a link is now ink instead of grey. Nothing has to change in old pages.
 - **1.5.0** (2026-11-21): new: the wide page and head (`.wide`, `.head`), cards (`.cards`, `.card` and its parts; equal heights), toggles (`.toggles`, `.toggle`: words that switch on and off) and the pop-out (`.pop`, `.pop-add`, `.pop-panel`), shown in a ninth starter page, `site/cards.html`, and the specimen. Pages made for 1.4 look the same.
