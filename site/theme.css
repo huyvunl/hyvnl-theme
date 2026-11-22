@@ -1,4 +1,4 @@
-/* hyvnl-theme 1.5.0
+/* hyvnl-theme 1.6.0
    The shared look for my sites: ink on paper, lots of empty space.
    Don't edit this copy. Change it in the hyvnl-theme repo, then copy it in again.
    Guide: GUIDE.md in the hyvnl-theme repo. */
@@ -108,6 +108,8 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
   line-height: 2.2;
 }
 .phone-only { display: none; }
+/* The current page: ink and a thin underline, in the row and in "…" (1.6.0). */
+.menu a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.45em; }
 
 /* ---------- centre: everything else sits in the middle of the screen ---------- */
 .center {
@@ -140,6 +142,8 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
   letter-spacing: 0.15em;
   white-space: nowrap;
 }
+/* As a link home (1.6.0), it keeps the plain title's ink. */
+a.name { color: var(--ink); }
 
 /* ---------- centred line (padding-left balances the letter spacing) ---------- */
 .line {
@@ -173,7 +177,9 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 }
 .list + .back { margin-top: 16px; }
 
-/* ---------- back arrow ---------- */
+/* ---------- back arrow: deprecated in 1.6.0 ----------
+   Kept so pages made for older versions look the same; removed in 2.0.0. New pages use the corner
+   title (a link home) and the menu instead. */
 .back {
   display: block;
   width: var(--tap);
@@ -223,6 +229,20 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 .prose + .meta, .log + .meta { margin-top: 2.4em; }
 .meta + .back, .prose + .back, .log + .back, .form + .back, .line + .back { margin-top: 24px; }
 .line + .form { margin-top: 2em; }
+
+/* ---------- add link: a small, quiet "+ word" just above a list (1.6.0) ----------
+   <a class="add" href="…">+ skriv</a>, only for those who may add to the list. */
+.add {
+  display: block;
+  width: 100%;
+  max-width: var(--column);
+  text-align: left;
+  line-height: var(--tap);
+  font-size: var(--size-menu);
+  letter-spacing: 0.2em;
+}
+.title + .add { margin-top: 1.2em; }
+.add + .log { margin-top: 0.6em; }
 
 /* ---------- log: grey dates next to ink titles ---------- */
 .log {
@@ -464,7 +484,9 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 .lock:focus-within .lock-icon, .lock[data-open] .lock-icon { display: none; }
 
 /* ---------- stamp: a faded blue dot with a lime dot low inside, bottom right ----------
-   Decoration only: <span class="stamp" aria-hidden="true"></span> as the last thing in main.center. */
+   Decoration: <span class="stamp" aria-hidden="true"></span> as the last thing in main.center.
+   Or a link (1.6.0): <a class="stamp" href="…" aria-label="…"></a>. Same look; an invisible 44px
+   square around the dot takes the tap, so nothing on the page moves. */
 .stamp {
   position: absolute;
   right: var(--edge-left);
@@ -485,6 +507,8 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
   border-radius: 50%;
   background: var(--stamp-lime);
 }
+a.stamp::before { content: ""; position: absolute; left: -16px; top: -16px; width: var(--tap); height: var(--tap); }
+a.stamp:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
 
 /* ---------- read by screen readers only ---------- */
 .visually-hidden {
@@ -508,7 +532,7 @@ a, .lock-icon { transition: color var(--ink-fade) ease; }
 /* ---------- print: ink on white paper, title and words only ---------- */
 @media print {
   body { background: #fff; color: #000; }
-  .menu, .back, .stamp, .form, .actions, .card-actions { display: none; }
+  .menu, .back, .add, .stamp, .form, .actions, .card-actions { display: none; }
   .wide { padding: 0; }
   .cards { display: block; }
   .card { min-height: 0; margin-bottom: 1em; }

@@ -106,7 +106,8 @@ body { height: auto; }
 
 /* the live row: real pieces you can hover and Tab to */
 .live { position: relative; height: 64px; max-width: 420px; border: 1px solid var(--hairline); }
-.live .back { position: absolute; left: 8px; top: 10px; }
+.live .name { left: 8px; top: 10px; line-height: 1; padding: 6px 0; }
+.frame .add { font-size: 0.6rem; line-height: 2; }
 
 /* do / don't: the wrong examples, only here */
 .dont-big { font-size: 1.6rem; }

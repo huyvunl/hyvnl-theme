@@ -11,7 +11,7 @@
 
 The shared look for my websites: one style file, nine starter pages, no scripts, nothing downloaded.
 
-![Every piece in each state: menu, the open fold-out, hover and focus, the lock closed and open, selection, the back arrow and the stamp](specimen/screens/pieces.png)
+![Every piece in each state: menu with the current page underlined, the open fold-out, hover and focus, the lock closed and open, the corner title, the add link, selection and the stamp](specimen/screens/pieces.png)
 
 ![The nine starter pages: front, short page, list, longer reading, not found, and more](specimen/screens/pages.png)
 

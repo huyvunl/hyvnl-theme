@@ -47,7 +47,7 @@ Tokens are the named values in `theme.css`. Use the name, never the raw value, s
 | `--size-text` | `0.85rem` | centred line, body text |
 | `--size-more` | `1.1rem` | the `…` |
 | `--size-input` | `16px` | text fields (smaller makes iPhones zoom in) |
-| `--size-arrow` | `18px` | the `←` |
+| `--size-arrow` | `18px` | the `←` (deprecated in 1.6.0) |
 | `--size-stamp` | `12px` | the stamp |
 | `--edge-top` | `12px` | gap above the corner title and the menu |
 | `--edge-left` | `24px` | gap left of the corner title, right of the stamp |
@@ -68,20 +68,23 @@ Copy the HTML as it is, then change the words.
 
 ### Corner title
 
-The site's or page's name, top left, semi-bold. One per page, as the page's `h1`.
+The site's name, top left, semi-bold, on every page, as a link to the front page (the front page too, so it looks and works the same everywhere). It is how a visitor gets home, so pages need no `←`.
 
 ```html
-<h1 class="name">sidenavn</h1>
+<a class="name" href="/">sidenavn</a>
+<h1 class="visually-hidden">link et</h1>
 ```
+
+Every page still needs exactly one `h1`, the page's own name, for screen readers. If the page shows its title (`.title`, see Title and meta), that is the `h1`. If it doesn't (a front page, a short page, a list, a log, the not-found page), add a visually hidden `h1` right after the corner title, as above.
 
 - Do: keep it short, one or two words.
 - Don't: make it bigger or add a logo. The empty space carries it.
 
-It sits inside `<main class="center">` but is placed in the corner by the style.
+It sits inside `<main>` but is placed in the corner by the style. (Before 1.6.0 the corner held the page's name as a plain `<h1 class="name">`; that still works and looks the same.)
 
 ### Menu with dots and "…"
 
-Top right. Up to three links inline with `·` between them, and the rest behind `…`. On a phone (narrower than 600px) only `…` shows, and its list also holds the inline links (`class="phone-only"`). Mark the current page with `aria-current="page"` in both places.
+Top right. Up to three links inline with `·` between them, and the rest behind `…`. On a phone (narrower than 600px) only `…` shows, and its list also holds the inline links (`class="phone-only"`). Mark the current page with `aria-current="page"` in both places: it shows in ink with a thin underline. A side link (`.menu-side`) gets it too, on its own page and the pages under it.
 
 ```html
 <nav class="menu" aria-label="Menu">
@@ -112,7 +115,8 @@ Everything that isn't in a corner goes in `<main class="center">`, centred acros
 
 ```html
 <main class="center">
-  <h1 class="name">sidenavn</h1>
+  <a class="name" href="/">sidenavn</a>
+  <h1 class="visually-hidden">sidenavn</h1>
   <p class="line">en stille linje</p>
 </main>
 ```
@@ -151,26 +155,19 @@ For text longer than a few sentences: add `reading` to the centre, and the text 
 
 ```html
 <main class="center reading">
-  <h1 class="name">en tekst</h1>
+  <a class="name" href="/">sidenavn</a>
+  <h1 class="visually-hidden">en tekst</h1>
   <p class="text">Første afsnit.</p>
   <p class="text">Andet afsnit.</p>
-  <a class="back" href="/" aria-label="Tilbage til forsiden">←</a>
 </main>
 ```
 
-- Do: plain paragraphs and the `←` at the end.
+- Do: plain paragraphs.
 - Don't: use it for a one-line page. Short pages stay centred.
 
-### Back arrow
+### Back arrow (deprecated in 1.6.0)
 
-A bare `←` back to the front page, under the text.
-
-```html
-<a class="back" href="/" aria-label="Tilbage til forsiden">←</a>
-```
-
-- Do: keep the `aria-label`, because screen readers can't say "←" usefully.
-- Don't: add the word "tilbage" next to it.
+Don't use it on new pages: the corner title links home and the menu shows where you are. The style stays until 2.0.0 so older pages look the same; when a site updates, it can delete its `<a class="back" …>←</a>` lines.
 
 ### Side link
 
@@ -195,7 +192,7 @@ A page's own title in the column (`.title`), with a small grey line of facts und
 <p class="meta"><time datetime="2026-11-19">19 11 2026</time> · <a href="/log.html">rejser</a></p>
 ```
 
-- Do: put the site's name in the corner (`.name`) and the page's title here.
+- Do: put the site's name in the corner (`.name`) and the page's title here, as the page's `h1`.
 - Don't: more than one line of facts.
 
 ### Log
@@ -210,6 +207,18 @@ Grey dates next to ink titles (`.log`, `.log-date`). Copy the HTML from `site/lo
 
 - Do: one line per entry, newest first.
 - Don't: add descriptions under the titles.
+
+### Add link
+
+A small, quiet `+ word` just above a list, for those who may add to it, for example `+ skriv` above a log (`.add`). Like the pop-out `+` beside a title, but a plain link to its own page. Show it only to visitors who may use it; the server decides who that is.
+
+```html
+<a class="add" href="/ny">+ skriv</a>
+<ol class="log">…</ol>
+```
+
+- Do: one short word after the `+`, lowercase.
+- Don't: put it in the top-right corner; it belongs with the list it adds to.
 
 ### Prose
 
@@ -257,7 +266,7 @@ Checkboxes in a group, with a small ink heading (`.choices`, `.choice`). Each bo
 
 ### Wide page and head
 
-A full-width page that starts top left, for an overview or a dashboard (`.wide` on `<main>` instead of `.center`). The corner title, menu, `←` and stamp work as on every page. `.head` puts something small beside the title, for example a pop-out `+`. Copy the HTML from `site/cards.html`.
+A full-width page that starts top left, for an overview or a dashboard (`.wide` on `<main>` instead of `.center`). The corner title, menu and stamp work as on every page. `.head` puts something small beside the title, for example a pop-out `+`. Copy the HTML from `site/cards.html`.
 
 ```html
 <main class="wide">
@@ -323,6 +332,13 @@ A small faded blue dot with a see-through lime dot resting low inside it, in the
 ```
 
 - Do: one stamp per page, always with `aria-hidden="true"` (it's decoration).
+
+**Stamp as a link** (optional, 1.6.0). A site may make the stamp a quiet way in, for example to its lock. It looks exactly the same; an invisible 44×44px square around the dot takes the tap, so nothing moves, and it shows the ink outline when reached with Tab. Give it a short Danish `aria-label` that says what it does, and no `aria-hidden`:
+
+```html
+<a class="stamp" href="/laas" aria-label="lås op"></a>
+```
+
 - Don't: use its colours for text, links or anything that carries meaning.
 
 ### Site icon
@@ -362,7 +378,7 @@ Classes: `paper-spring`, `paper-summer`, `paper-autumn`, `paper-winter`. Leave t
 
 ### Not found page
 
-`site/404.html`: the site name, `her er intet`, and the `←`. The site's host must be set up to send it for wrong addresses (Python's preview server doesn't).
+`site/404.html`: the corner title, `her er intet`, and a visually hidden `h1` (`ikke fundet`). The site's host must be set up to send it for wrong addresses (Python's preview server doesn't).
 
 ### Lock (look only)
 
@@ -395,13 +411,13 @@ Text only screen readers read, like the lock's `lås op` button.
 
 - **Slow ink:** links and the lock icon fade from grey to ink over `--ink-fade` when touched, instead of jumping.
 - **Quiet selection:** selected text gets a hairline wash with ink text instead of the browser's blue.
-- **Print:** a printed page shows only the title and the words, in black on white. Menu, lock, arrow and stamp are left out.
+- **Print:** a printed page shows only the title and the words, in black on white. Menu, lock, arrow, add link and stamp are left out.
 
 ## 5. Words
 
 - Pages are Danish: `<html lang="da">`.
 - Lowercase, short, calm. No exclamation marks.
-- Screen-reader labels in Danish: `Menu`, `Flere links`, `Tilbage til forsiden`, `lås op`.
+- Screen-reader labels in Danish: `Menu`, `Flere links`, `lås op`.
 - Page titles: `<page> · <site>`, for example `link et · sidenavn`. The front page is just the site name.
 - The not-found line is `her er intet`.
 
@@ -413,24 +429,25 @@ Check before publishing:
 - [ ] On a seasonal paper, grey stays above the bar too: spring 4.83, summer 4.83, autumn 4.65, winter 4.75.
 - [ ] Everything you tap is at least 44×44px (`--tap`).
 - [ ] Links and `…` show an ink outline when reached with Tab.
-- [ ] The current page is marked with `aria-current="page"`.
+- [ ] The current page is marked with `aria-current="page"` (underlined in the menu).
+- [ ] Every page has exactly one `h1` (visible, or visually hidden after the corner title).
 - [ ] Text fields are 16px (`--size-input`).
-- [ ] The stamp has `aria-hidden="true"`.
+- [ ] The stamp has `aria-hidden="true"`, or is a link with an `aria-label`.
 - [ ] Nothing scrolls sideways at 320px wide.
 - [ ] Movement stops when the device asks for less motion (already in `theme.css`).
-- [ ] **Click check:** the menu links, `…` and the lock take clicks at 1280, 375 and 320px wide (see below).
+- [ ] **Click check:** the corner title, the menu links, `…`, the lock, an add link and a stamp link take clicks at 1280, 375 and 320px wide (see below).
 
 **Click check.** Something invisible drawn on top of the menu can swallow its clicks while the page still looks right (that was the 1.1.0 bug). In the browser, set the width (developer tools → device toolbar), open the console and paste:
 
 ```js
-[...document.querySelectorAll('.menu a, .menu summary, .lock-icon, .button, .pop > summary')]
+[...document.querySelectorAll('a.name, .menu a, .menu summary, .lock-icon, .add, a.stamp, .button, .pop > summary')]
   .filter(e => e.getClientRects().length)
   .map(e => { const r = e.getBoundingClientRect();
     const hit = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
-    return (e.textContent.trim() || 'lock') + (e.contains(hit) ? ': ok' : ': BLOCKED by ' + hit.tagName); })
+    return (e.textContent.trim() || e.getAttribute('aria-label') || 'lock') + (e.contains(hit) ? ': ok' : ': BLOCKED by ' + hit.tagName); })
 ```
 
-Every line must end in `ok`. Open `…` and paste it again for the fold-out's links. Then really click: the lock must open its field, and `…` must open its list. On a page with a side link beside the lock, really click the side link: it must open its page, not the field. Do it on every starter page and the specimen.
+Every line must end in `ok`. Open `…` and paste it again for the fold-out's links. Then really click: the corner title must go to the front page, the lock must open its field, and `…` must open its list. On a page with a side link beside the lock, really click the side link: it must open its page, not the field. Do it on every starter page and the specimen.
 
 ## 7. Starter pages
 
@@ -439,11 +456,11 @@ Every line must end in `ok`. Open `…` and paste it again for the fold-out's li
 | File | What it is |
 |---|---|
 | `index.html` | front page: the site name and one quiet line |
-| `page.html` | short page: a few sentences and `←` |
-| `list.html` | list page: a column of links and `←` |
+| `page.html` | short page: a few sentences |
+| `list.html` | list page: a column of links |
 | `reading.html` | reading page: longer text, starting high |
-| `404.html` | not found: `her er intet` and `←` |
-| `log.html` | dated list |
+| `404.html` | not found: `her er intet` |
+| `log.html` | dated list, with `+ skriv` above it |
 | `post.html` | a longer text with marks |
 | `form.html` | a form |
 | `cards.html` | an overview: a wide page with cards, toggles and pop-outs |
@@ -586,6 +603,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.6.0** (2026-11-22): new: the corner title as a link home on every page (`a.name`, in ink like the plain title), with the page's own `h1` visible or visually hidden; the current page underlined in the menu (`aria-current="page"`); the add link (`.add`, a quiet `+ word` above a list); the stamp as a link (`a.stamp`: same look, an invisible 44px tap area, a focus outline). Deprecated: the back arrow (`.back`); the starter pages and the specimen no longer use it, and its style stays until 2.0.0. Two small look changes on existing pages: a current menu link is now underlined, and a corner title that is a link is now ink instead of grey. Nothing has to change in old pages.
 - **1.5.0** (2026-11-21): new: the wide page and head (`.wide`, `.head`), cards (`.cards`, `.card` and its parts; equal heights), toggles (`.toggles`, `.toggle`: words that switch on and off) and the pop-out (`.pop`, `.pop-add`, `.pop-panel`), shown in a ninth starter page, `site/cards.html`, and the specimen. Pages made for 1.4 look the same.
 - **1.4.0** (2026-11-19): new: the choices piece (checkboxes in a group, `.choices`, `.choice`), shown in `site/form.html` and the specimen, and room between two forms in a row (`.form + .form`). Pages made for 1.3 look the same.
 - **1.3.0** (2026-11-19): new: side link, column, title, meta, log, prose and form pieces, the token --column, and three starter pages (log.html, post.html, form.html). .lock now lays itself out, so it can sit inside a <div class="menu">. Pages made for 1.2 look the same.
