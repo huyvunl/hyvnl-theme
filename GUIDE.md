@@ -376,7 +376,7 @@ A small faded blue dot with a see-through lime dot resting low inside it, in the
 
 ### Site icon
 
-The stamp is also the icon in the browser tab, in bookmarks and on a phone's home screen. Four files in `site/`:
+The stamp is also the icon in the browser tab, in bookmarks and on a phone's home screen. Four files in `site/` (and three square twins, below):
 
 - `favicon.ico`: a real ICO file holding two pictures, 16×16 and 32×32, each drawn on its own so the stamp stays crisp, on a clear background. Safari and older browsers look for this one first.
 - `favicon-32.png`: the same drawing as a 32×32 picture on a clear background.
@@ -395,6 +395,7 @@ Put these four lines in every page's `<head>`, right after the theme, in this or
 - Order: ICO first, then PNG, then SVG. Browsers that can show SVG take the SVG; Safari takes what it can read from the first lines. No `mask-icon`: Safari dropped pinned-tab icons that need it.
 
 - Do: serve the four files from the site's own address (the CSP's `img-src 'self'` allows them), with the headers from section 8, except caching: they hold nothing private, so let them be kept for a day (`Cache-Control: public, max-age=86400`). Safari keeps its own icon store and tends to skip icons sent with `no-store`. Send `favicon.ico` as `image/x-icon`.
+- Safari draws every tab and Favorites icon on its own white tile, and it takes the SVG too (Safari 26 reads SVG icons), so a round icon shows white corners there. `site/` therefore also holds square twins of the three tab icons: `favicon-square.ico`, `favicon-square-32.png` and `favicon-square.svg`. They are the same stamp colours drawn as a full-bleed blue square with the lime dot, the same picture as the touch icon. A page can't tell Safari from other browsers, so the server does: when the browser is Safari (its `User-Agent` has `Version/…` and `Safari/…` and none of `Chrome`, `Chromium`, `CriOS`, `FxiOS`, `EdgiOS`, `Edg`, `OPR`, `OPiOS`, `Firefox`), the answers to `/favicon.ico`, `/favicon-32.png` and `/favicon.svg` are the square files; everyone else gets the round ones. Send `Vary: User-Agent` on those three answers, so no shared cache hands one browser the other's file. The `<link>` lines don't change. A site that doesn't care about Safari's white corners can skip the square files.
 - Do: answer `/favicon.ico` with the ICO file itself (no redirect: browsers keep a redirect for a very long time).
 - Don't: change their colours per site, or redraw one file without the others. Browsers keep icons a long time, so after a change a hard refresh, or clearing Safari's icon cache, may be needed to see it.
 
@@ -642,6 +643,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.7.2** (2026-11-22): new: Safari-only square tab icons, `site/favicon-square.ico`, `site/favicon-square-32.png` and `site/favicon-square.svg` (a full-bleed blue square with the lime dot), because Safari draws round icons on a white tile. The server sends them instead of the round files when the browser is Safari (see Site icon); other browsers keep the round stamp. Nothing changes in the pages or the `<link>` lines. To get it in a site, copy the three files and add the server rule.
 - **1.7.1** (2026-11-22): fix: the site icon in Safari and on light backgrounds. New `site/favicon.ico` (a real ICO with 16×16 and 32×32 pictures); `favicon-32.png` is redrawn with its metadata stripped; `apple-touch-icon.png` is now a full-bleed blue square with the lime dot, not the stamp on a paper-coloured square, so no light square shows in Safari's Favorites. The head now has four icon lines, ICO first (see Site icon), and the icon files should be cached for a day instead of `no-store`. Pages look the same. To get the fix in a site, copy the three changed files, add the ICO file and its `<link>` line, and give the icon files normal caching.
 - **1.7.0** (2026-11-22): new: the editor (`.editor`, `.editor-bar`, `.editor-tool`, `.editor-gap`, `.editor-link`, `.editor-area`), the look of a writing window whose script the site brings itself; `[hidden]` now always hides. The security baseline now ends the CSP in `script-src 'none'`, and says what a page with an editor sends instead. Pages made for 1.6 look the same.
 - **1.6.0** (2026-11-22): new: the corner title as a link home on every page (`a.name`, in ink like the plain title), with the page's own `h1` visible or visually hidden; the current page underlined in the menu (`aria-current="page"`); the add link (`.add`, a quiet `+ word` above a list); the stamp as a link (`a.stamp`: same look, an invisible 44px tap area, a focus outline). Deprecated: the back arrow (`.back`); the starter pages and the specimen no longer use it, and its style stays until 2.0.0. Two small look changes on existing pages: a current menu link is now underlined, and a corner title that is a link is now ink instead of grey. Nothing has to change in old pages.
