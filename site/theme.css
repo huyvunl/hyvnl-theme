@@ -1,4 +1,4 @@
-/* hyvnl-theme 1.8.0
+/* hyvnl-theme 1.8.1
    The shared look for my sites: ink on paper, lots of empty space.
    Don't edit this copy. Change it in the hyvnl-theme repo, then copy it in again.
    Guide: GUIDE.md in the hyvnl-theme repo. */
@@ -639,6 +639,8 @@ a.stamp:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
   .log-spans li { grid-template-columns: 1fr; }
   .add-fixed { left: 0; right: 0; bottom: 0; padding: 0 var(--edge-left); border-top: 1px solid var(--hairline); }
   main:has(> .add-fixed) > .stamp { bottom: calc(var(--edge-bottom) + var(--tap)); }
+  /* Scrolling something into view (the keyboard moving on) stops above the strip, so focus never hides behind it (1.8.1). */
+  html:has(.add-fixed) { scroll-padding-bottom: calc(var(--tap) + 12px); }
 }
 
 /* ---------- print: ink on white paper, title and words only ---------- */

@@ -248,7 +248,7 @@ One dated part of a page that grows (`.entry`, `.entry-title`, `.entry-date`, `.
 
 ### Add link that stays
 
-The add link, always in the bottom left corner, also while the page scrolls (`.add-fixed`). On phones it is a thin strip of paper along the bottom, so it never covers words, and the stamp moves up above it. Put it just before the stamp.
+The add link, always in the bottom left corner, also while the page scrolls (`.add-fixed`). On phones it is a thin strip of paper along the bottom, so it never covers words, and the stamp moves up above it. When the keyboard moves on, the page scrolls far enough that the focused link stays above the strip (1.8.1). Put it just before the stamp.
 
 ```html
 <p class="add-fixed"><a class="add" href="/ny">+ tilføj</a></p>
@@ -681,6 +681,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.8.1** (2026-11-25): fix: on phones, a page with the add link that stays no longer lets the focused link end up behind the strip, when moving through the page with the keyboard or when a page scrolls something just into view. Pages look the same. To get it, copy `theme.css`.
 - **1.8.0** (2026-11-25): new: entries (`.entry`, `.entry-title`, `.entry-date`, `.entry-tools`), the log with spans (`.log-spans`), the add link that stays (`.add-fixed`), and the starter page `story.html`. Small spacing: toggles and a meta line in and after a form, and date fields look like the other fields. Pages made for 1.7 look the same. The specimen's pictures in the README still show 1.7.
 - **1.7.2** (2026-11-22): new: Safari-only square tab icons, `site/favicon-square.ico`, `site/favicon-square-32.png` and `site/favicon-square.svg` (a full-bleed blue square with the lime dot), because Safari draws round icons on a white tile. The server sends them instead of the round files when the browser is Safari (see Site icon); other browsers keep the round stamp. Nothing changes in the pages or the `<link>` lines. To get it in a site, copy the three files and add the server rule.
 - **1.7.1** (2026-11-22): fix: the site icon in Safari and on light backgrounds. New `site/favicon.ico` (a real ICO with 16×16 and 32×32 pictures); `favicon-32.png` is redrawn with its metadata stripped; `apple-touch-icon.png` is now a full-bleed blue square with the lime dot, not the stamp on a paper-coloured square, so no light square shows in Safari's Favorites. The head now has four icon lines, ICO first (see Site icon), and the icon files should be cached for a day instead of `no-store`. Pages look the same. To get the fix in a site, copy the three changed files, add the ICO file and its `<link>` line, and give the icon files normal caching.
