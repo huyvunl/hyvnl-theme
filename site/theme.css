@@ -1,4 +1,4 @@
-/* hyvnl-theme 1.7.2
+/* hyvnl-theme 1.8.0
    The shared look for my sites: ink on paper, lots of empty space.
    Don't edit this copy. Change it in the hyvnl-theme repo, then copy it in again.
    Guide: GUIDE.md in the hyvnl-theme repo. */
@@ -246,6 +246,12 @@ a.name { color: var(--ink); }
 .title + .add { margin-top: 1.2em; }
 .add + .log { margin-top: 0.6em; }
 
+/* ---------- add link that stays: always in the bottom left corner, also while the page scrolls (1.8.0) ----------
+   <p class="add-fixed"><a class="add" href="…">+ skriv</a></p>, for those who may add. Phones: a thin strip of paper
+   along the bottom, so it never covers words, and the stamp moves up above it. */
+.add-fixed { position: fixed; left: var(--edge-left); bottom: 8px; z-index: 1; margin: 0; background: var(--paper); }
+.add-fixed .add { width: auto; min-width: var(--tap); }
+
 /* ---------- log: grey dates next to ink titles ---------- */
 .log {
   margin: 0;
@@ -257,8 +263,24 @@ a.name { color: var(--ink); }
 }
 .log li { display: grid; grid-template-columns: 7.5em 1fr; gap: 0 1.2em; padding: 0.5em 0; }
 .log-date { color: var(--grey); white-space: nowrap; }
+/* Dates that are spans ("12 nov – nu", "12 dec 2025 – 4 jan 2026") get more room (1.8.0). On phones they stand above the title. */
+.log-spans li { grid-template-columns: 9.5em 1fr; }
+.log-spans .log-date { white-space: normal; }
 .log a { color: var(--ink); text-underline-offset: 0.3em; text-decoration-color: var(--hairline); }
 .log a:hover { text-decoration-line: underline; }
+
+/* ---------- entry: one dated part of a longer, growing page (1.8.0) ----------
+   <section class="entry" id="n1"><h2 class="entry-title">…</h2><p class="entry-date">…</p><div class="prose">…</div></section> */
+.entry { width: 100%; max-width: var(--column); text-align: left; overflow-wrap: anywhere; scroll-margin-top: 1.6em; }
+.meta + .entry { margin-top: 2.4em; }
+.entry + .entry { margin-top: 3.6em; }
+.entry + .meta { margin-top: 2.4em; }
+.entry-title { margin: 0; font-size: var(--size-text); font-weight: 600; letter-spacing: 0.1em; line-height: 1.6; }
+.entry-date { margin: 0; font-size: var(--size-menu); letter-spacing: 0.1em; line-height: 1.8; color: var(--grey); }
+.entry-title + .prose, .entry-date + .prose { margin-top: 0.8em; }
+.entry-tools { margin: 0.6em 0 0; font-size: var(--size-menu); letter-spacing: 0.1em; line-height: var(--tap); color: var(--grey); }
+.entry-tools a { display: inline-block; padding: 0 1em; }
+.entry-tools a:first-child { margin-left: -1em; }
 
 /* ---------- prose: longer text with simple marks ---------- */
 .prose {
@@ -354,6 +376,9 @@ a.name { color: var(--ink); }
 .choice input:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
 .choices + .actions { margin-top: 1.2em; }
 .form + .form { margin-top: 3.6em; }
+.form + .meta { margin-top: 2.4em; }
+.form > .toggles { margin-top: 2em; }
+input[type="date"].field { -webkit-appearance: none; appearance: none; min-height: 40px; }
 
 /* ---------- editor: a writing window with a quiet row of tools (1.7.0) ----------
    Look only: the site's own script builds it in place of a .area (and keeps the .area for when scripts are
@@ -611,17 +636,20 @@ a.stamp:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
   .menu-links { display: none; }
   .phone-only { display: block; }
   .card { min-height: 0; }
+  .log-spans li { grid-template-columns: 1fr; }
+  .add-fixed { left: 0; right: 0; bottom: 0; padding: 0 var(--edge-left); border-top: 1px solid var(--hairline); }
+  main:has(> .add-fixed) > .stamp { bottom: calc(var(--edge-bottom) + var(--tap)); }
 }
 
 /* ---------- print: ink on white paper, title and words only ---------- */
 @media print {
   body { background: #fff; color: #000; }
-  .menu, .back, .add, .stamp, .form, .actions, .card-actions { display: none; }
+  .menu, .back, .add, .add-fixed, .entry-tools, .stamp, .form, .actions, .card-actions { display: none; }
   .wide { padding: 0; }
   .cards { display: block; }
   .card { min-height: 0; margin-bottom: 1em; }
   .center, .center.reading { display: block; min-height: 0; padding: 0; text-align: left; }
   .name { position: static; margin-bottom: 1em; }
   .line, .text, .list, .meta, .prose, .log-date, a { color: #000; }
-  .text, .log, .title, .meta, .prose { max-width: none; }
+  .text, .log, .title, .meta, .entry, .prose { max-width: none; }
 }

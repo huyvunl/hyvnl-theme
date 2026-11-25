@@ -220,6 +220,43 @@ A small, quiet `+ word` just above a list, for those who may add to it, for exam
 - Do: one short word after the `+`, lowercase.
 - Don't: put it in the top-right corner; it belongs with the list it adds to.
 
+### Log with spans
+
+Dates that are spans need more room: add `log-spans` to the log. On phones the dates stand above the titles.
+
+```html
+<ol class="log log-spans">
+  <li><span class="log-date">12 nov – nu</span><a href="/story.html">en rejse</a></li>
+  <li><span class="log-date">12 dec 2025 – 4 jan 2026</span><a href="/story.html">vinter</a></li>
+</ol>
+```
+
+### Entry
+
+One dated part of a page that grows (`.entry`, `.entry-title`, `.entry-date`, `.entry-tools`). The title may be left out. The tools are only for those who may edit. Copy the HTML from `site/story.html`.
+
+```html
+<section class="entry" id="n1">
+  <h2 class="entry-title">ankomst</h2><p class="entry-date"><time datetime="2026-11-12">12 nov 2026</time></p>
+  <div class="prose"><p>Et afsnit.</p></div>
+  <p class="entry-tools"><a href="/ret">ret</a> · <a href="/slet">slet</a></p>
+</section>
+```
+
+- Do: put the page's own title and facts above (Title and meta).
+- Don't: number the entries on the page; the dates are enough.
+
+### Add link that stays
+
+The add link, always in the bottom left corner, also while the page scrolls (`.add-fixed`). On phones it is a thin strip of paper along the bottom, so it never covers words, and the stamp moves up above it. Put it just before the stamp.
+
+```html
+<p class="add-fixed"><a class="add" href="/ny">+ tilføj</a></p>
+```
+
+- Do: show it only to visitors who may add; everyone else gets the quiet page.
+- Don't: more than one per page. It is the only piece that stays while the page scrolls.
+
 ### Prose
 
 Longer text with headings (`h2`, `h3`), lists, emphasis and links (`.prose`). This is the design decision that "Body text" asks for before headings. Copy the HTML from `site/post.html`.
@@ -487,7 +524,7 @@ Every line must end in `ok`. Open `…` and paste it again for the fold-out's li
 
 ## 7. Starter pages
 
-`site/` holds nine pages to copy. All of them carry the stamp and link the site icon (`favicon.ico`, `favicon-32.png`, `favicon.svg`, `apple-touch-icon.png`, see Site icon).
+`site/` holds ten pages to copy. All of them carry the stamp and link the site icon (`favicon.ico`, `favicon-32.png`, `favicon.svg`, `apple-touch-icon.png`, see Site icon).
 
 | File | What it is |
 |---|---|
@@ -498,6 +535,7 @@ Every line must end in `ok`. Open `…` and paste it again for the fold-out's li
 | `404.html` | not found: `her er intet` |
 | `log.html` | dated list, with `+ skriv` above it |
 | `post.html` | a longer text with marks |
+| `story.html` | a page that grows: dated entries, and `+ tilføj` that stays |
 | `form.html` | a form |
 | `cards.html` | an overview: a wide page with cards, toggles and pop-outs |
 
@@ -643,6 +681,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.8.0** (2026-11-25): new: entries (`.entry`, `.entry-title`, `.entry-date`, `.entry-tools`), the log with spans (`.log-spans`), the add link that stays (`.add-fixed`), and the starter page `story.html`. Small spacing: toggles and a meta line in and after a form, and date fields look like the other fields. Pages made for 1.7 look the same. The specimen's pictures in the README still show 1.7.
 - **1.7.2** (2026-11-22): new: Safari-only square tab icons, `site/favicon-square.ico`, `site/favicon-square-32.png` and `site/favicon-square.svg` (a full-bleed blue square with the lime dot), because Safari draws round icons on a white tile. The server sends them instead of the round files when the browser is Safari (see Site icon); other browsers keep the round stamp. Nothing changes in the pages or the `<link>` lines. To get it in a site, copy the three files and add the server rule.
 - **1.7.1** (2026-11-22): fix: the site icon in Safari and on light backgrounds. New `site/favicon.ico` (a real ICO with 16×16 and 32×32 pictures); `favicon-32.png` is redrawn with its metadata stripped; `apple-touch-icon.png` is now a full-bleed blue square with the lime dot, not the stamp on a paper-coloured square, so no light square shows in Safari's Favorites. The head now has four icon lines, ICO first (see Site icon), and the icon files should be cached for a day instead of `no-store`. Pages look the same. To get the fix in a site, copy the three changed files, add the ICO file and its `<link>` line, and give the icon files normal caching.
 - **1.7.0** (2026-11-22): new: the editor (`.editor`, `.editor-bar`, `.editor-tool`, `.editor-gap`, `.editor-link`, `.editor-area`), the look of a writing window whose script the site brings itself; `[hidden]` now always hides. The security baseline now ends the CSP in `script-src 'none'`, and says what a page with an editor sends instead. Pages made for 1.6 look the same.
