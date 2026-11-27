@@ -49,6 +49,16 @@
       <label class="choice"><input type="checkbox" name="vis" value="forside" checked>forsiden</label>
       <label class="choice"><input type="checkbox" name="vis" value="noter">noter</label>
     </fieldset>
+    <fieldset class="shares"><legend>hvem</legend>
+      <div class="share-grid">
+        <div class="share-row" role="radiogroup" aria-labelledby="n-1"><span class="share-name" id="n-1">alle andre</span>
+          <span class="toggles"><label class="toggle"><input type="radio" name="r-1" value="a" checked>intet</label><label class="toggle"><input type="radio" name="r-1" value="b">læser</label></span></div>
+        <div class="share-row" role="radiogroup" aria-labelledby="n-2"><span class="share-name" id="n-2">person et</span>
+          <span class="toggles"><label class="toggle"><input type="radio" name="r-2" value="a">intet</label><label class="toggle"><input type="radio" name="r-2" value="b" checked>læser</label><label class="toggle"><input type="radio" name="r-2" value="c">skriver</label></span></div>
+        <div class="share-row" role="radiogroup" aria-labelledby="n-3"><span class="share-name" id="n-3">person med et langt navn</span>
+          <span class="toggles"><label class="toggle"><input type="radio" name="r-3" value="a" checked>intet</label><label class="toggle"><input type="radio" name="r-3" value="b">læser</label><label class="toggle"><input type="radio" name="r-3" value="c">skriver</label></span></div>
+      </div>
+    </fieldset>
     <div class="actions"><button class="button" type="submit">gem</button><a href="/log.html">fortryd</a></div>
   </form>
   <span class="stamp" aria-hidden="true"></span>

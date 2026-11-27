@@ -380,6 +380,26 @@ Words that switch on and off (`.toggles`, `.toggle`), a quieter choice than chec
 - Do: short words, lowercase; the legend says what they are about.
 - Don't: mix toggles and checkboxes on one page.
 
+### Choice rows
+
+A name, then words to pick exactly one of (`.shares`, `.share-grid`, `.share-row`, `.share-name`), for example who may do what. Each word holds a real radio button, hidden but still there, styled like Toggles, so it works without scripts, with the keyboard and with screen readers. On a computer the names stand in one column; on phones each name stands above its words, so long names never break in the middle. Copy the HTML from `site/form.html`.
+
+```html
+<fieldset class="shares"><legend>hvem</legend>
+  <div class="share-grid">
+    <div class="share-row" role="radiogroup" aria-labelledby="n-1"><span class="share-name" id="n-1">person et</span>
+      <span class="toggles"><label class="toggle"><input type="radio" name="r-1" value="a" checked>intet</label><label class="toggle"><input type="radio" name="r-1" value="b">læser</label></span></div>
+  </div>
+</fieldset>
+```
+
+- Do: one group of radio buttons per row, each with its own `name`; one word always checked.
+- Don't: more than four words in a row (a phone at 320px fits about three).
+
+### Mark
+
+A quiet grey word after a title (`.mark`), in a log or a title line, for example `privat`. `<a href="…">titel</a><span class="mark">privat</span>`.
+
 ### Pop-out
 
 A word (or `+`) that opens a framed panel over the page, without scripts (`.pop`, `.pop-add` for a `+`, `.pop-panel`). Pressing the word again, or a `fortryd` link back to the page, closes it. Give every pop-out on a page the same `name`: then opening one closes the others (browsers from 2024; older ones simply leave them open). Inside `.head` the panel hangs under the title; inside `.card-actions` it is as wide as the card. An open panel covers what is under it until it is closed. Copy the HTML from `site/cards.html`.
@@ -681,6 +701,7 @@ Considered and left out: text set top-to-bottom as a margin accent, and a name s
 
 ## 12. Changes
 
+- **1.9.0** (2026-11-27): new: choice rows (`.shares`, `.share-grid`, `.share-row`, `.share-name`: a name, then words to pick one of) and the mark (`.mark`: a grey word after a title), shown in `site/form.html`. Card labels no longer break onto two lines. Pages made for 1.8 look the same, apart from that.
 - **1.8.1** (2026-11-25): fix: on phones, a page with the add link that stays no longer lets the focused link end up behind the strip, when moving through the page with the keyboard or when a page scrolls something just into view. Pages look the same. To get it, copy `theme.css`.
 - **1.8.0** (2026-11-25): new: entries (`.entry`, `.entry-title`, `.entry-date`, `.entry-tools`), the log with spans (`.log-spans`), the add link that stays (`.add-fixed`), and the starter page `story.html`. Small spacing: toggles and a meta line in and after a form, and date fields look like the other fields. Pages made for 1.7 look the same. The specimen's pictures in the README still show 1.7.
 - **1.7.2** (2026-11-22): new: Safari-only square tab icons, `site/favicon-square.ico`, `site/favicon-square-32.png` and `site/favicon-square.svg` (a full-bleed blue square with the lime dot), because Safari draws round icons on a white tile. The server sends them instead of the round files when the browser is Safari (see Site icon); other browsers keep the round stamp. Nothing changes in the pages or the `<link>` lines. To get it in a site, copy the three files and add the server rule.
